@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bureau Overtuig – reclame, inclusie en pitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1F2A44; --ink2:#3A4666; --paper:#FFF8EE; --paper2:#FBEFDD; --line:#E6DCCB;
+  --tomato:#FF5A3C; --tomato-l:#FFE1D9; --tomato-d:#A3301A;
+  --mustard:#FFC43D; --mustard-l:#FFF0C7; --mustard-d:#7A5300;
+  --mint:#3DD6B5; --mint-l:#D6F5EC; --mint-d:#0B5345;
+  --lila:#A78BFA; --lila-l:#ECE6FF; --lila-d:#4A2F9E;
+  --sky:#7CC4FF; --sky-l:#E2F2FF; --sky-d:#0B4A7A;
+  --display:'Bricolage Grotesque', 'Arial Black', system-ui, sans-serif;
+  --body:'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);font-size:17px;line-height:1.6;color:var(--ink);
+  background:var(--paper);
+  background-image:radial-gradient(var(--line) 1px, transparent 1px);background-size:22px 22px;}
+a{color:var(--tomato-d);font-weight:700}
+a:hover{color:var(--tomato)}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.15;margin:0 0 .5em}
+button{font-family:var(--body);font-size:15px;cursor:pointer}
+.sr{position:absolute;left:-9999px}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--paper);border-bottom:3px solid var(--tomato)}
+.top-in{display:flex;align-items:center;gap:16px;padding:10px 22px;flex-wrap:wrap}
+.logo{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
+.logo-mark{width:34px;height:34px;border-radius:50%;background:var(--tomato);display:grid;place-items:center;font-size:18px;transform:rotate(-8deg);border:2px solid var(--paper)}
+.role{background:var(--mustard);color:var(--ink);font-family:var(--body);font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;transform:rotate(-2deg)}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:14px}
+.saved{opacity:0;transition:opacity .3s;color:var(--mint)}
+.saved.on{opacity:1}
+.btn{border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:10px;font-weight:700;box-shadow:3px 3px 0 var(--tomato);transition:transform .1s, box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--tomato)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--tomato)}
+.btn.alt{background:var(--paper);color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.btn.light{background:var(--paper);color:var(--ink);border-color:var(--paper);box-shadow:3px 3px 0 var(--tomato)}
+.btn.small{padding:5px 12px;font-size:14px}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:none;border-style:dashed}
+
+/* applausmeter */
+.meter{background:var(--ink2);padding:8px 22px 10px;display:flex;align-items:center;gap:14px;color:var(--paper);font-size:14px}
+.meter-label{font-weight:700;white-space:nowrap}
+.meter-track{flex:1;height:14px;background:#2A3554;border-radius:999px;overflow:hidden;position:relative;border:2px solid var(--paper)}
+.meter-fill{height:100%;width:0;background:repeating-linear-gradient(-45deg,var(--tomato) 0 12px,#FF7A60 12px 24px);transition:width .6s cubic-bezier(.3,1.4,.6,1)}
+.meter-ticks{position:absolute;inset:0;display:flex;justify-content:space-evenly;pointer-events:none}
+.meter-ticks span{width:2px;background:rgba(255,248,238,.35)}
+.meter-pct{font-family:var(--display);font-weight:800;font-size:18px;min-width:52px;text-align:right}
+.meter-mood{min-width:150px;color:var(--mustard);font-weight:700}
+
+/* layout */
+.wrap{display:grid;grid-template-columns:290px minmax(0,1fr);gap:26px;max-width:1360px;margin:0 auto;padding:24px 22px 80px}
+.side{position:sticky;top:118px;align-self:start;max-height:calc(100vh - 130px);overflow:auto;padding-right:4px}
+.panel{background:#fff;border:2px solid var(--ink);border-radius:var(--r);box-shadow:4px 4px 0 var(--ink);padding:14px 14px 12px;margin-bottom:18px}
+.panel h3{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2);margin-bottom:8px}
+.route{list-style:none;margin:0;padding:0}
+.route button{width:100%;text-align:left;display:flex;align-items:center;gap:10px;background:none;border:0;padding:7px 8px;border-radius:10px;color:var(--ink);font-size:15px;line-height:1.25}
+.route button:hover{background:var(--paper2)}
+.route button.cur{background:var(--mustard-l);font-weight:700;outline:2px solid var(--mustard)}
+.route .nr{flex:0 0 28px;height:28px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:13px;background:#fff}
+.route .done .nr{background:var(--mint);border-color:var(--mint-d);color:var(--mint-d)}
+.route .teacher{margin-top:6px;border-top:2px dashed var(--line);padding-top:10px}
+.scores{width:100%;border-collapse:collapse;font-size:14px}
+.scores td{padding:4px 2px;border-bottom:1px dashed var(--line);vertical-align:top}
+.scores td:last-child{text-align:right;font-weight:700;white-space:nowrap}
+.scores tr.tot td{border-bottom:0;border-top:2px solid var(--ink);font-family:var(--display);font-size:16px;padding-top:7px}
+.scores .na{color:#9A917F;font-weight:400}
+.stickers{display:flex;flex-wrap:wrap;gap:6px}
+.sticker{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;border:2px dashed var(--line);color:#A39A88;background:#fff}
+.sticker.got{border-style:solid;transform:rotate(-2deg)}
+.c-mint{background:var(--mint-l);border-color:var(--mint-d)!important;color:var(--mint-d)!important}
+.c-mustard{background:var(--mustard-l);border-color:var(--mustard-d)!important;color:var(--mustard-d)!important}
+.c-tomato{background:var(--tomato-l);border-color:var(--tomato-d)!important;color:var(--tomato-d)!important}
+.c-lila{background:var(--lila-l);border-color:var(--lila-d)!important;color:var(--lila-d)!important}
+.c-sky{background:var(--sky-l);border-color:var(--sky-d)!important;color:var(--sky-d)!important}
+
+/* billboard hero */
+.hero{position:relative;background:var(--ink);color:var(--paper);border-radius:18px;padding:30px 34px 28px;margin-bottom:26px;overflow:hidden;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--tomato)}
+.hero:before{content:"";position:absolute;inset:8px;border:3px dotted var(--mustard);border-radius:12px;pointer-events:none;opacity:.7}
+.kicker{display:inline-block;background:var(--tomato);color:#fff;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:6px;transform:rotate(-1.5deg);margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4vw,44px);font-weight:800;color:var(--mustard);letter-spacing:-1px}
+.hero p{margin:0;max-width:760px;font-size:18px;color:#F2E9DA}
+.hero-tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lpdtag{font-size:12px;font-weight:700;background:rgba(255,248,238,.12);border:1px solid rgba(255,248,238,.35);color:#F2E9DA;padding:3px 9px;border-radius:999px}
+.hero-sticker{position:absolute;right:26px;top:22px;width:92px;height:92px;border-radius:50%;background:var(--mustard);color:var(--ink);display:grid;place-items:center;text-align:center;font-family:var(--display);font-weight:800;font-size:13px;line-height:1.1;padding:10px;transform:rotate(12deg);border:3px dashed var(--ink)}
+.hero-sticker.got{background:var(--mint);}
+
+/* blocks */
+.block{background:#fff;border:2px solid var(--ink);border-radius:var(--r);box-shadow:4px 4px 0 var(--ink);padding:22px 24px;margin-bottom:24px;position:relative}
+.block h2{font-size:24px;font-weight:700;margin-top:4px}
+.block h3{font-size:19px;margin-top:14px}
+.chip{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:6px;border:2px solid;margin-bottom:6px}
+.intro{color:var(--ink2)}
+.note{background:var(--mustard-l);border-left:5px solid var(--mustard);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:16px}
+.note.warn{background:var(--tomato-l);border-color:var(--tomato)}
+.note.info{background:var(--sky-l);border-color:var(--sky)}
+.kader{background:var(--mint-l);border:2px solid var(--mint-d);border-radius:12px;padding:14px 18px;margin:14px 0}
+.kader h4{color:var(--mint-d);font-size:17px;margin-bottom:6px}
+.kader ul{margin:4px 0 0;padding-left:20px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.mini{border:2px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--paper)}
+.mini b{font-family:var(--display)}
+q{font-style:italic}
+
+/* flip cards */
+.flips{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-top:12px}
+.flip{border:2px solid var(--ink);border-radius:14px;min-height:150px;padding:14px;background:var(--paper);text-align:left;font-size:15px;line-height:1.45;position:relative;transition:transform .35s, background .2s;box-shadow:3px 3px 0 var(--ink);color:var(--ink)}
+.flip:hover{transform:rotate(-1deg) translateY(-2px)}
+.flip .f-front{display:block}
+.flip .f-back{display:none}
+.flip.on{background:var(--ink);color:var(--paper);animation:flip .35s}
+.flip.on .f-front{display:none}
+.flip.on .f-back{display:block}
+@keyframes flip{0%{transform:rotateY(90deg)}100%{transform:rotateY(0)}}
+.f-big{font-family:var(--display);font-weight:800;font-size:28px;display:block;color:var(--tomato);margin-bottom:4px}
+.f-title{font-family:var(--display);font-weight:700;font-size:18px;display:block}
+.f-hint{position:absolute;bottom:8px;right:12px;font-size:12px;color:#8F8675}
+.flip.on .f-hint{color:#C9C0B0}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:10px}
+.link{display:block;text-decoration:none;color:var(--ink);border:2px solid var(--ink);border-radius:12px;padding:12px 14px;background:var(--sky-l);box-shadow:3px 3px 0 var(--ink);font-weight:400;transition:transform .1s}
+.link:hover{transform:translate(-1px,-1px);color:var(--ink)}
+.link b{display:block;font-family:var(--display);font-size:16px;color:var(--sky-d)}
+.link small{display:block;color:var(--ink2);margin-top:4px;font-size:14px}
+.link .arrow{float:right;font-weight:700;color:var(--sky-d)}
+
+/* forms */
+label.fl{display:block;font-weight:700;margin:14px 0 6px}
+label.fl small{font-weight:400;color:var(--ink2)}
+textarea,input[type=text],select{width:100%;font-family:var(--body);font-size:16px;color:var(--ink);border:2px solid var(--ink2);border-radius:10px;padding:10px 12px;background:var(--paper)}
+textarea{resize:vertical;min-height:70px;line-height:1.5}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--tomato);box-shadow:0 0 0 3px var(--tomato-l);background:#fff}
+.wc{font-size:13px;color:var(--ink2);text-align:right;margin-top:2px}
+.wc.ok{color:var(--mint-d);font-weight:700}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* MC */
+.q{border-top:2px dashed var(--line);padding:14px 0 6px}
+.q:first-of-type{border-top:0}
+.q-t{font-weight:700;margin-bottom:8px}
+.q-t .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:var(--display);font-size:13px;margin-right:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:2px solid var(--line);border-radius:10px;margin:6px 0;cursor:pointer;background:var(--paper);transition:border-color .15s}
+.opt:hover{border-color:var(--ink2)}
+.opt input{margin-top:5px;accent-color:var(--tomato);width:18px;height:18px;flex:0 0 18px}
+.opt.sel{border-color:var(--ink);background:#fff}
+.opt.ok{border-color:var(--mint-d);background:var(--mint-l)}
+.opt.bad{border-color:var(--tomato-d);background:var(--tomato-l)}
+.ex{font-size:15px;background:var(--lila-l);border-radius:8px;padding:8px 12px;margin-top:6px;color:var(--lila-d)}
+
+/* categorize */
+.cat-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;align-items:center;padding:12px 0;border-top:2px dashed var(--line)}
+.cat-row:first-of-type{border-top:0}
+.cat-t{font-size:16px}
+.cat-t .n{font-family:var(--display);font-weight:800;color:var(--tomato);margin-right:6px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{border:2px solid var(--ink2);background:#fff;color:var(--ink);border-radius:999px;padding:5px 12px;font-size:14px;font-weight:700}
+.pill:hover{background:var(--paper2)}
+.pill.sel{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pill.ok{background:var(--mint);color:var(--mint-d);border-color:var(--mint-d)}
+.pill.bad{background:var(--tomato-l);color:var(--tomato-d);border-color:var(--tomato-d);text-decoration:line-through}
+.cat-fb{grid-column:1/-1;font-size:14px;margin-top:-4px}
+.cat-fb.ok{color:var(--mint-d)} .cat-fb.bad{color:var(--tomato-d)}
+.cat-row select.ok{border-color:var(--mint-d);background:var(--mint-l)}
+.cat-row select.bad{border-color:var(--tomato-d);background:var(--tomato-l)}
+
+/* gap */
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px;padding:10px;border:2px dashed var(--ink2);border-radius:12px;background:var(--paper)}
+.bank span{background:var(--mustard-l);border:2px solid var(--mustard-d);color:var(--mustard-d);font-weight:700;font-size:14px;padding:2px 10px;border-radius:8px}
+.bank span.used{opacity:.35;text-decoration:line-through}
+.gaptext{line-height:2.3;font-size:17px}
+.gaptext input{width:auto;min-width:130px;display:inline-block;padding:3px 8px;font-size:16px;border-radius:8px;border-width:2px;margin:0 2px}
+.gaptext input.ok{border-color:var(--mint-d);background:var(--mint-l)}
+.gaptext input.bad{border-color:var(--tomato-d);background:var(--tomato-l)}
+.gapfix{font-size:13px;color:var(--mint-d);font-weight:700;margin-right:4px}
+
+/* check bar */
+.checkbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:2px solid var(--ink)}
+.err{color:var(--tomato-d);font-size:14px;font-weight:700}
+.scorebadge{font-family:var(--display);font-weight:800;font-size:20px;background:var(--mustard);border:2px solid var(--ink);padding:4px 14px;border-radius:999px;transform:rotate(-3deg);box-shadow:2px 2px 0 var(--ink)}
+.scorebadge.full{background:var(--mint)}
+.cheer{font-weight:700;color:var(--ink2)}
+
+/* reading */
+.mag{background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:24px 28px;columns:2 300px;column-gap:34px;column-rule:1px solid var(--line);font-size:16px}
+.mag h3{column-span:all;font-size:28px;font-weight:800;margin:0 0 6px}
+.mag .lead{column-span:all;font-weight:700;font-size:18px;color:var(--ink2);margin-bottom:14px}
+.mag h4{font-size:17px;margin:12px 0 4px;color:var(--tomato-d)}
+.mag p{margin:0 0 10px}
+.mag .meta{column-span:all;font-size:13px;color:#8F8675;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+/* pitchcard */
+.pcard{background:var(--mustard);border:3px solid var(--ink);border-radius:16px;padding:20px 22px;transform:rotate(-.6deg);box-shadow:6px 6px 0 var(--ink)}
+.pcard .pc-prod{font-family:var(--display);font-weight:800;font-size:26px}
+.pcard .pc-slogan{font-family:var(--display);font-size:20px;font-style:italic;background:var(--ink);color:var(--mustard);display:inline-block;padding:4px 12px;border-radius:8px;margin:6px 0 12px;transform:rotate(-1deg)}
+.pc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.pc-step{background:#fff;border:2px solid var(--ink);border-radius:10px;padding:10px 12px;font-size:15px;min-height:80px}
+.pc-step b{display:block;font-family:var(--display);color:var(--tomato-d);font-size:15px}
+.pc-empty{color:#A39A88;font-style:italic}
+
+/* timer */
+.timer{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.clock{font-family:var(--display);font-weight:800;font-size:56px;background:var(--ink);color:var(--paper);padding:6px 22px;border-radius:14px;min-width:190px;text-align:center;border:3px solid var(--ink)}
+.clock.short{color:var(--mustard)} .clock.good{color:var(--mint)} .clock.long{color:var(--tomato)}
+.zone{font-weight:700}
+.tbar{height:12px;border-radius:999px;background:linear-gradient(90deg,var(--mustard) 0 50%,var(--mint) 50% 100%);position:relative;margin:10px 0 4px;border:2px solid var(--ink);max-width:520px}
+.tbar i{position:absolute;top:-6px;width:4px;height:20px;background:var(--ink);left:0;transition:left .3s}
+.tlegend{display:flex;justify-content:space-between;max-width:520px;font-size:12px;color:var(--ink2)}
+
+/* rubric */
+.rubwrap{overflow-x:auto}
+.rub{width:100%;border-collapse:separate;border-spacing:6px;min-width:820px;font-size:14px;line-height:1.35}
+.rub th{font-family:var(--display);text-align:left;padding:6px 8px;font-size:15px}
+.rub td.crit{font-weight:700;width:150px;vertical-align:top;padding:8px}
+.rub td.cell{border:2px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;vertical-align:top;background:var(--paper);position:relative;transition:border-color .15s}
+.rub td.cell:hover{border-color:var(--ink2)}
+.rub td.self{background:var(--mint-l);border-color:var(--mint-d)}
+.rub td.peer{box-shadow:inset 0 0 0 3px var(--lila)}
+.rub .tagme,.rub .tagpeer{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;margin:0 4px 4px 0}
+.rub .tagme{background:var(--mint-d);color:#fff}
+.rub .tagpeer{background:var(--lila-d);color:#fff}
+.modes{display:flex;gap:8px;margin:10px 0}
+.modes button{border:2px solid var(--ink);border-radius:999px;padding:6px 14px;background:#fff;font-weight:700}
+.modes button.on{background:var(--ink);color:var(--paper)}
+
+/* nav bottom */
+.secnav{display:flex;justify-content:space-between;gap:12px;margin-top:10px}
+
+/* finish */
+.finish{text-align:center}
+.finish .big{font-family:var(--display);font-weight:800;font-size:64px;color:var(--tomato)}
+.finish .stickers{justify-content:center;margin:14px 0}
+
+/* lpd table */
+.lpd{width:100%;border-collapse:collapse;font-size:15px}
+.lpd th,.lpd td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.lpd th{background:var(--ink);color:var(--paper);font-family:var(--display)}
+.lpd tr:nth-child(even) td{background:var(--paper)}
+.cov{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;border:2px solid}
+
+/* toggle side mobile */
+.sidetoggle{display:none}
+#main:focus{outline:none}
+@media (max-width:980px){
+  .top{position:static}
+  .top-in{padding:10px 14px}
+  .meter{padding:8px 14px}
+  .wrap{grid-template-columns:1fr;padding:16px 12px 60px}
+  .side{position:static;max-height:none;display:none}
+  .side.open{display:block}
+  .sidetoggle{display:inline-block}
+  .hero{padding:24px 20px}
+  .hero-sticker{display:none}
+  .cat-row{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  .meter-mood{display:none}
+  .block{padding:18px 16px}
+}
+
+/* report (print) */
+#report{display:none}
+@media print{
+  body{background:#fff;font-size:11pt}
+  .top,.meter,.wrap{display:none!important}
+  #report{display:block;color:#111;font-family:var(--body)}
+  #report h1{font-family:var(--display);font-size:22pt;margin:0}
+  #report h2{font-family:var(--display);font-size:15pt;margin:18pt 0 6pt;border-bottom:2pt solid #1F2A44;padding-bottom:3pt;page-break-after:avoid}
+  #report h3{font-size:12pt;margin:10pt 0 4pt;page-break-after:avoid}
+  #report .ans{border-left:3pt solid #FFC43D;padding:3pt 8pt;margin:2pt 0 6pt;white-space:pre-wrap}
+  #report .lbl{font-weight:700;margin-top:5pt}
+  #report table{border-collapse:collapse;width:100%;margin:6pt 0;font-size:10pt}
+  #report td,#report th{border:1px solid #999;padding:3pt 5pt;text-align:left;vertical-align:top}
+  #report .ok{color:#0B5345}
+  #report .bad{color:#A3301A}
+  #report .muted{color:#777}
+  #report .sec{page-break-inside:auto}
+  #report .item{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="logo"><span class="logo-mark" aria-hidden="true">✦</span>Bureau Overtuig <span class="role">junior copywriter</span></div>
+    <button class="btn light small sidetoggle" id="sideToggle" aria-expanded="false">Route en scores</button>
+    <div class="top-right">
+      <span class="saved" id="saved">✓ opgeslagen</span>
+      <span id="who"></span>
+      <button class="btn light small" id="exportTop" title="Kies in het printvenster 'Opslaan als PDF'">Exporteer als pdf</button>
+    </div>
+  </div>
+  <div class="meter" role="group" aria-label="Voortgang">
+    <span class="meter-label">Applausmeter</span>
+    <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="meterbar">
+      <div class="meter-fill" id="meterFill"></div>
+      <div class="meter-ticks" aria-hidden="true"><span></span><span></span><span></span></div>
+    </div>
+    <span class="meter-pct" id="meterPct">0%</span>
+    <span class="meter-mood" id="meterMood">stilte in de zaal</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside class="side" id="side">
+    <div class="panel">
+      <h3>Route</h3>
+      <ul class="route" id="route"></ul>
+    </div>
+    <div class="panel">
+      <h3>Scorelijst</h3>
+      <table class="scores" id="scores"></table>
+    </div>
+    <div class="panel">
+      <h3>Stickers</h3>
+      <div class="stickers" id="stickers"></div>
+    </div>
+  </aside>
+  <main id="main" tabindex="-1"></main>
+</div>
+
+<div id="report"></div>
+
+<script>
+/* ================= CONTENT ================= */
+const YT = q => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
+const GG = q => 'https://www.google.com/search?q=' + encodeURIComponent(q);
+
+const SECTIONS = [
+/* ---------- 0 WELKOM ---------- */
+{ id:'welkom', nr:'0', short:'Welkom', kicker:'Je eerste werkdag', title:'Welkom bij Bureau Overtuig',
+  sub:`Je begint vandaag als junior copywriter in ons reclamebureau. Je leert reclame kritisch bekijken, slim met taal spelen, iedereen aan boord houden en uiteindelijk geef je zelf een sales pitch van 1 à 2 minuten.`,
+  lpd:['14'], sticker:{name:'Ingecheckt', c:'c-sky'},
+  blocks:[
+  { type:'open', id:'id', chip:'Zelf doen', title:'Je badge', intro:`Vul je naam en klas in. Ze komen bovenaan je pdf-portfolio.`,
+    fields:[{id:'naam',label:'Voor- en achternaam',input:true,ph:'Lien Peeters'},{id:'klas',label:'Klas',input:true,ph:'6 BE'}] },
+  { type:'html', chip:'Zo werkt het', title:'Je route door het bureau', html:`
+    <div class="two">
+      <div class="mini"><b>9 briefings</b><br>Werk ze in volgorde af. Elke briefing heeft theorie, oefeningen en opdrachten.</div>
+      <div class="mini"><b>Applausmeter</b><br>Bovenaan zie je hoeveel je al gedaan hebt. Van stilte in de zaal tot een staande ovatie.</div>
+      <div class="mini"><b>Scorelijst en stickers</b><br>Gesloten oefeningen worden meteen verbeterd. Rond je een briefing af, dan verdien je een sticker.</div>
+      <div class="mini"><b>Pdf-portfolio</b><br>Alles wordt automatisch bewaard in deze browser. Klik op <i>Exporteer als pdf</i> en kies <i>Opslaan als PDF</i>.</div>
+    </div>
+    <h3>Na dit traject kun je …</h3>
+    <ul>
+      <li>kritisch naar reclame kijken en luisteren;</li>
+      <li>teksttypes onderzoeken die tegelijk informatief, persuasief en activerend zijn;</li>
+      <li>een advertorial herkennen;</li>
+      <li>taalgebruik in reclame onderzoeken en slogans ontleden;</li>
+      <li>nadenken over taalgevoeligheden en een afweging maken tussen verschillende taalinclusieve oplossingen;</li>
+      <li>ethos, logos, pathos en stijlmiddelen herkennen in toespraken en het belang van prosodie inzien;</li>
+      <li>een inclusieve, overtuigende sales pitch geven met de AIDA-structuur.</li>
+    </ul>
+    <div class="note info">Alles wat je nodig hebt, staat in deze app. Video's en artikels open je via de links die telkens bij de opdracht staan: ze openen in een nieuw tabblad.</div>` }
+  ]},
+
+/* ---------- 1 RECLAME ONTLEED ---------- */
+{ id:'reclame', nr:'1', short:'Reclame ontleed', kicker:'Briefing 1 · Les 12', title:'Heb je dat wel nodig?',
+  sub:`Reclame wil meer dan informeren. Leer de boodschap achter de boodschap zien met het AIDA-model.`,
+  lpd:['1','2','11','13'], sticker:{name:'AIDA-pro', c:'c-mint'},
+  blocks:[
+  { type:'html', chip:'Theorie', title:'Reclame: drie doelen tegelijk', html:`
+    <p>Reclame is een bijzonder teksttype: ze is vaak <b>tegelijk</b> informatief, persuasief en activerend.</p>
+    <div class="two">
+      <div class="mini"><b>Informatief</b><br>Ze geeft informatie: wat is het product, wat kost het, waar vind je het?</div>
+      <div class="mini"><b>Persuasief</b><br>Ze wil je overtuigen dat je het product nodig hebt of dat het beter is dan de rest.</div>
+      <div class="mini"><b>Activerend</b><br>Ze wil dat je iets doet: kopen, inschrijven, uitproberen, delen.</div>
+    </div>
+    <div class="note">Kritisch kijken = je afvragen: <i>Voor wie is dit bedoeld? Op welk verlangen speelt het in? Welke waarde wordt (impliciet) benadrukt? Wat wordt níét gezegd?</i></div>` },
+  { type:'flip', chip:'Theorie', title:'Het AIDA-model', intro:`AIDA is een marketingmodel met de vier stappen die in doeltreffende reclame aan bod komen. Klik op een kaart om ze om te draaien.`,
+    cards:[
+      {big:'A',t:'Attention · aandacht',b:`Je trekt de aandacht van de potentiële klant: een opvallend beeld, een vraag, een verrassende uitspraak.`},
+      {big:'I',t:'Interest · interesse',b:`Je wekt belangstelling door de positieve kanten van het product, het merk of de dienst te tonen.`},
+      {big:'D',t:'Desire · verlangen',b:`Je zet interesse om in verlangen: de klant raakt ervan overtuigd dat het product waardevol is voor hem of haar.`},
+      {big:'A',t:'Action · actie',b:`Je zet de klant aan tot actie: kopen, uitproberen, inschrijven of delen. Vaak met een duidelijke oproep (call-to-action).`}
+    ]},
+  { type:'cat', id:'aida1', chip:'Oefening', title:'Welke AIDA-fase?', intro:`Hieronder staan zinnen uit een reclame voor <b>FietsFix</b>, een (fictieve) fietsherstellingsdienst aan huis. Bij welke fase hoort elke zin?`,
+    cats:['Aandacht','Interesse','Verlangen','Actie'],
+    items:[
+      {t:`Sta jij ook elke ochtend te vloeken naast een platte band?`,a:0},
+      {t:`FietsFix herstelt je fiets bij jou thuis, binnen 24 uur.`,a:1},
+      {t:`Stel je voor: elke dag zorgeloos naar school rollen, zonder één minuut vertraging.`,a:2},
+      {t:`Boek vandaag nog via de app.`,a:3},
+      {t:`STOP! Je fiets verdient beter.`,a:0},
+      {t:`Onze mecaniciens werken met duurzame onderdelen en vaste prijzen.`,a:1},
+      {t:`Meer dan 5000 tevreden fietsers gingen je voor. Word jij de volgende?`,a:2},
+      {t:`Gebruik de code SNEL10 en krijg 10% korting op je eerste herstelling.`,a:3}
+    ]},
+  { type:'mc', id:'boektopia', chip:'Oefening', title:'Reclame voor Boektopia', intro:`Boektopia is een groot boekenfestival in Kortrijk Xpo (en sinds 2026 ook in Antwerp Expo). Surf naar de website en bekijk hoe Boektopia zichzelf aanprijst: de homepage, de knoppen, de teksten over het programma. Beantwoord daarna de vragen.<a class="link" style="max-width:420px;margin-top:12px" href="https://www.boektopia.be" target="_blank" rel="noopener"><span class="arrow">↗</span><b>Open boektopia.be</b><small>Lees de teksten op de homepage en kijk welke knoppen je ziet.</small></a>`,
+    qs:[
+      {q:`Tot welke doelgroep richt deze reclame zich?`,o:[`Alleen tot leerkrachten en bibliothecarissen`,`Tot iedereen die interesse heeft in boeken`,`Alleen tot kinderen onder 12 jaar`,`Tot schrijvers die een uitgever zoeken`],a:1},
+      {q:`Wat valt op aan de woordkeuze op de website?`,o:[`Er staan vooral technische woorden en cijfers`,`De teksten zijn neutraal en zakelijk geformuleerd`,`Er worden vooral positieve, aantrekkelijke adjectieven en werkwoorden gebruikt`,`De teksten gebruiken veel negatieve woorden om te waarschuwen`],a:2,ex:`Positieve, wervende woorden scheppen een aantrekkelijk beeld van het festival. Dat heet framing.`},
+      {q:`Hoe zet de website je aan tot actie (de laatste A van AIDA)?`,o:[`Ze waarschuwt bezoekers voor lange wachtrijen`,`Met knoppen en oproepen om bijvoorbeeld tickets te kopen of het programma te ontdekken`,`Helemaal niet: de website wil alleen informeren`,`Door het adres van de uitgeverijen te vermelden`],a:1,ex:`Een website kan de actie-fase heel letterlijk maken: één klik en je bent klaar.`}
+    ]},
+  { type:'open', id:'boek2', chip:'Zelf doen', title:'Jouw mening over de slogan', intro:`De slogan van Boektopia is <q>Lezen doet (be)leven</q>.`,
+    fields:[{id:'s',label:'Wat vind je van deze slogan? Welk effect hebben de haakjes?',rows:3}] },
+  { type:'open', id:'vrt', chip:'Zoekopdracht', title:'Reclamespot: Lang zullen we lezen', intro:`Zoek de VRT-reclamespot <i>Lang zullen we lezen</i> en bekijk hem. <a href="${YT('VRT Lang zullen we lezen reclamespot')}" target="_blank" rel="noopener">Zoek de spot op YouTube ↗</a>`,
+    fields:[
+      {id:'a',label:'Waarvoor wordt hier reclame gemaakt?',rows:2},
+      {id:'b',label:'Tot welke doelgroep richt de VRT zich?',rows:2},
+      {id:'c',label:'Welke informatie bevat de spot?',rows:2},
+      {id:'d',label:'Op welk verlangen is de boodschap gericht?',rows:2},
+      {id:'e',label:'Welke waarde wordt beklemtoond?',rows:2},
+      {id:'f',label:'Slagen de makers in hun opzet? Waarom (niet)?',rows:3},
+      {id:'g',label:'Bespreek de AIDA-structuur in de spot: wat zie je bij A, I, D en A?',rows:4}
+    ]}
+  ]},
+
+/* ---------- 2 STORYTELLING & ADVERTORIAL ---------- */
+{ id:'story', nr:'2', short:'Storytelling en advertorial', kicker:'Briefing 2 · Les 12', title:'Een verhaal verkoopt',
+  sub:`Klanten zijn kritischer geworden. Daarom vertellen merken het verhaal áchter hun product en verstoppen ze reclame soms in een gewoon artikel.`,
+  lpd:['1','2','11','13','14'], sticker:{name:'Advertorial-detective', c:'c-mustard'},
+  blocks:[
+  { type:'html', chip:'Theorie', title:'Storytelling, advertorial en testimonial', html:`
+    <p>Mensen zijn dol op verhalen: als kind verzinnen we verhalen in ons hoofd, later verliezen we ons in boeken, films en liedjes. Merken spelen daarop in met <b>storytelling</b>: ze vertellen het oprechte verhaal achter hun bedrijf of product. Zo krijgt een merk een gezicht in plaats van een koele, zakelijke uitstraling.</p>
+    <div class="two">
+      <div class="mini"><b>1 · Een sterker merk</b><br>Een oprecht en consistent verhaal over het hoe en waarom van je bedrijf geeft je merk een stevige basis.</div>
+      <div class="mini"><b>2 · Een community</b><br>Mensen die dezelfde idealen delen, voelen zich aangetrokken tot je merk.</div>
+      <div class="mini"><b>3 · Trouwe klanten</b><br>Wie zich verbonden voelt, kiest sneller voor jou dan voor een (goedkoper) alternatief en komt terug.</div>
+    </div>
+    <div class="kader"><h4>Advertorial en testimonial</h4>
+      <ul>
+        <li>Een <b>advertorial</b> (advertisement + editorial) is een advertentie in de vorm van een redactioneel artikel. Het lijkt objectief, maar wil je ook (subtiel) overtuigen om iets te kopen. Er staan geen expliciete aanwijzingen in dat het om reclame gaat.</li>
+        <li>Een <b>testimonial</b> is een, al dan niet verzonnen (gefingeerd), interview met een klant die vertelt waarom die voor een merk koos. Worden klanten alleen met hun initialen vermeld, dan is het interview waarschijnlijk gefingeerd.</li>
+      </ul></div>` },
+  { type:'open', id:'omer', chip:'Zoekopdracht', title:'Storytelling in een bierreclame', intro:`Bekijk de reclamevideo van het Belgische bier Omer. <a href="${YT('Omer bier reclame Bellegem 1892')}" target="_blank" rel="noopener">Zoek de video ↗</a>`,
+    fields:[
+      {id:'a',label:'Toon aan dat hier aan storytelling wordt gedaan en leg het effect uit.',rows:4},
+      {id:'b',label:'Ken je andere reclamefragmenten waarin aan storytelling wordt gedaan? Welke?',rows:2}
+    ]},
+  { type:'reading', chip:'Leestekst', title:'Leestest: lees het artikel kritisch', intro:`<b>Leesstrategie:</b> lees eerst de titel, de inleiding en de tussentitels (oriënterend lezen). Lees daarna de hele tekst grondig. Let op wie er aan het woord is en welke bronnen er genoemd worden.`,
+    html:`<div class="mag">
+      <div class="meta">Jong &amp; Bezig · rubriek School</div>
+      <h3>Studeren zonder stress? Zo pakt de nieuwe generatie het aan</h3>
+      <div class="lead">De examens komen eraan en in veel huiskamers stijgt de spanning. Toch merken ouders en leerkrachten een opvallende verschuiving: steeds meer jongeren plannen hun leerwerk slimmer en houden zo tijd over voor sport, vrienden en slaap.</div>
+      <h4>Een plan dat met je meedenkt</h4>
+      <p>Wie het geheim achter die nieuwe aanpak zoekt, komt al snel uit bij StudieKompas, een app die twee Gentse studenten ontwikkelden op hun studentenkot. "We zaten zelf met onze handen in het haar tijdens de blok," vertelt medeoprichter Ilias. "Dus bouwden we de tool die we zelf hadden willen hebben."</p>
+      <p>Het resultaat is een digitale planner die je leerstof automatisch verdeelt over de dagen die je nog hebt en die je planning bijstuurt als je een dag achterop raakt.</p>
+      <h4>Rust in je hoofd</h4>
+      <p>Experts zijn het erover eens dat overzicht de beste remedie is tegen examenstress. Onderzoek toont aan dat jongeren die met een vaste planning werken, beter slapen en hogere punten halen. Ook bij gebruikers van StudieKompas is dat effect duidelijk zichtbaar.</p>
+      <p>"Vroeger begon ik pas drie dagen voor het examen," zegt S.V. (17) uit Hasselt. "Nu weet ik elke avond precies wat ik moet doen en ik heb nog nooit zulke goede punten gehaald."</p>
+      <h4>Voor iedereen</h4>
+      <p>De app is beschikbaar in het Nederlands, het Frans en het Engels, heeft een voorleesfunctie en een dyslexievriendelijk lettertype. "Elke leerling verdient een eerlijke kans," benadrukt Ilias.</p>
+      <h4>Zelf proberen?</h4>
+      <p>Wil jij deze examenperiode ook met een rustig hoofd beginnen? Download StudieKompas vóór 1 december en gebruik de code RUSTIG25: dan krijg je drie maanden premium gratis.</p>
+    </div>
+    <p style="font-size:13px;color:#8F8675;margin-top:6px">StudieKompas is een verzonnen product, speciaal geschreven voor deze oefening.</p>` },
+  { type:'mc', id:'lees', chip:'Oefening', title:'Leestest', intro:`Beantwoord de vragen over het artikel hierboven.`,
+    qs:[
+      {q:`Wat is het onderwerp van de tekst?`,o:[`Examenstress bij leerkrachten`,`De geschiedenis van studentenkoten in Gent`,`Slimmer studeren met de planningsapp StudieKompas`,`Slaapproblemen bij jongeren`],a:2},
+      {q:`Wat is de hoofdgedachte?`,o:[`Jongeren slapen te weinig tijdens de examens.`,`Met StudieKompas plan je slimmer en studeer je met minder stress.`,`Ouders moeten hun kinderen beter helpen plannen.`,`Twee Gentse studenten hadden het moeilijk tijdens de blok.`],a:1},
+      {q:`Tot welk teksttype behoort dit artikel?`,o:[`Een objectief nieuwsartikel`,`Een column`,`Een advertorial`,`Een recensie`],a:2,ex:`De tekst ziet eruit als een gewoon artikel, maar prijst één product aan en eindigt met een oproep tot actie.`},
+      {q:`Welke aanwijzing doet vermoeden dat de getuigenis gefingeerd kan zijn?`,o:[`De getuige wordt alleen met initialen vermeld.`,`De getuige is jonger dan 18.`,`De getuige komt uit Hasselt.`,`De getuige spreekt in de ik-vorm.`],a:0},
+      {q:`Welke AIDA-fase herken je in de laatste alinea?`,o:[`Aandacht`,`Interesse`,`Verlangen`,`Actie`],a:3},
+      {q:`Waar zit storytelling in de tekst?`,o:[`In de cijfers over betere punten`,`In het verhaal van de twee studenten die de app bouwden omdat ze zelf vastliepen`,`In de lijst met talen`,`In de kortingscode`],a:1},
+      {q:`"Onderzoek toont aan dat …" Waarom moet je als kritische lezer opletten bij die zin?`,o:[`Omdat onderzoek nooit klopt`,`Omdat de zin te lang is`,`Omdat er geen bron vermeld wordt, waardoor je de bewering niet kunt controleren`,`Omdat het onderzoek over volwassenen gaat`],a:2,ex:`Vage verwijzingen naar 'experts' of 'onderzoek' zonder bron zijn een typisch overtuigingstrucje.`},
+      {q:`Welk element maakt de boodschap inclusief?`,o:[`De app is meertalig, heeft een voorleesfunctie en een dyslexievriendelijk lettertype.`,`De app is gemaakt door studenten.`,`De app is gratis voor iedereen.`,`De app werkt alleen in Gent.`],a:0}
+    ]},
+  { type:'cat', id:'types', chip:'Oefening', title:'Welk teksttype is dit?', intro:`Lees elke beschrijving en kies het teksttype.`,
+    cats:['Advertentie','Advertorial','Testimonial','Nieuwsbericht'],
+    items:[
+      {t:`Een paginagrote foto van een sneaker, het merklogo en in grote letters: 'Nu -20%'.`,a:0},
+      {t:`Een artikel in een gratis stadskrant over 'de geheimen van een gezond ontbijt' waarin alleen één granenmerk wordt genoemd en dat eindigt met een kortingscode.`,a:1},
+      {t:`"Sinds ik met Fitlo train, voel ik me fitter dan ooit," zegt M.D. (34).`,a:2},
+      {t:`De openbare omroep meldt dat de examenperiode volgende week start. Onderwijsexperts van verschillende hogescholen geven tips.`,a:3},
+      {t:`Een blogtekst van een reisbureau over 'de 5 mooiste stranden van Kreta', met onderaan een knop 'Boek nu je reis'.`,a:1},
+      {t:`Op de website van een energieleverancier: een kort 'interview' met een tevreden gezin over hun zonnepanelen.`,a:2}
+    ]}
+  ]},
+
+/* ---------- 3 SLOGANS ---------- */
+{ id:'slogan', nr:'3', short:'Slogans en vaktaal', kicker:'Briefing 3 · Les 12', title:'Kort, krachtig, onvergetelijk',
+  sub:`Een goede slogan blijft hangen. Ontdek op welke technieken reclamemakers bouwen en leer de vaktaal van het bureau.`,
+  lpd:['5','11','12','13'], sticker:{name:'Sloganmeester', c:'c-tomato'},
+  blocks:[
+  { type:'flip', chip:'Theorie', title:'Technieken voor een slogan', intro:`Een slogan is een korte regel tekst waarmee je in enkele woorden een persuasieve of activerende boodschap overbrengt. Een goede slogan is <b>kort, origineel en gemakkelijk te onthouden</b>. Draai de kaarten om voor een voorbeeld.`,
+    cards:[
+      {t:'Beginrijm',b:`Woorden beginnen met dezelfde klank.<br><br><q>Heerlijk, helder, Heineken</q>`},
+      {t:'Rijm',b:`Woorden eindigen op dezelfde klank.<br><br><q>Koning, keizer, admiraal, Popla kennen ze allemaal</q>`},
+      {t:'Nieuw bedacht woord',b:`Een woord dat je zelf maakt.<br><br><q>kakelverse eieren</q>`},
+      {t:'Woordspeling',b:`Een woord met een dubbele betekenis.<br><br><q>U moet de groenten van Hak hebben</q>`},
+      {t:'Tegenstelling',b:`Twee tegengestelde begrippen.<br><br><q>Campina-ijs, warm aanbevolen!</q>`},
+      {t:'Spreekwoord of zegswijze',b:`Een bekende uitdrukking.<br><br><q>Dat pakt gegarandeerd goed uit.</q>`},
+      {t:'Eigenschap van het product',b:`Je benadrukt wat het product (beter) doet.<br><br><q>Miele, er is geen betere!</q>`}
+    ]},
+  { type:'cat', id:'slog', chip:'Oefening', style:'select', title:'Koppel de slogan aan zijn techniek', intro:`Op welke basis is elke slogan ontstaan? Kies telkens de belangrijkste techniek.`,
+    cats:['beginrijm','rijm','nieuw bedacht woord','woordspeling','tegenstelling','spreekwoord / zegswijze','eigenschap van het product'],
+    items:[
+      {t:`M&amp;M's: Smelt in je mond, niet in je hand`,a:6},
+      {t:`Belgische kazen, blijven verbazen`,a:1},
+      {t:`Beter Belegde Broodjes Bij Ben Bril`,a:0},
+      {t:`Spa, het zuiverende water`,a:6},
+      {t:`Dat zit wel Knorr`,a:3,ex:`Woordspeling op de uitdrukking 'dat zit wel snor'.`},
+      {t:`Stella Artois. Looks ugly. Tastes great.`,a:4},
+      {t:`Kakelverse eieren`,a:2},
+      {t:`Dat pakt gegarandeerd goed uit.`,a:5},
+      {t:`Heerlijk, helder, Heineken`,a:0},
+      {t:`Campina-ijs, warm aanbevolen!`,a:4}
+    ]},
+  { type:'open', id:'fabriek', chip:'Opwarmer', title:'De sloganfabriek', intro:`Deze slogan is saai: <q>Wij verkopen goede fietsen.</q> Maak er twee betere versies van, telkens met een andere techniek. Het is een opwarmer voor je eigen pitchslogan.`,
+    fields:[
+      {id:'a',label:'Versie 1 en de techniek die je gebruikt',rows:2},
+      {id:'b',label:'Versie 2 en de techniek die je gebruikt',rows:2}
+    ]},
+  { type:'gap', id:'vaktaal', chip:'Oefening', title:'Woordenschat van de copywriter', intro:`Vul de juiste vakterm in. Gebruik de woordenbank.`,
+    text:`Een reclameboodschap is vaak tegelijk informatief, {{persuasief}} en {{activerend}}: ze geeft informatie, wil overtuigen en zet aan tot actie. Volgens het {{AIDA}}-model trek je eerst de aandacht, wek je interesse, creëer je verlangen en roep je op tot actie. Een {{advertorial}} is een advertentie in de vorm van een redactioneel artikel. Een (al dan niet gefingeerd) interview met een tevreden klant heet een {{testimonial}}. Wie het verhaal achter een merk vertelt, doet aan {{storytelling}}. Een {{slogan}} is een korte, krachtige zin die je makkelijk onthoudt. Als reclamemakers bewust positieve woorden kiezen om een product in een bepaald daglicht te plaatsen, spreken we van {{framing}}. De groep mensen die je met je boodschap wilt bereiken, is je {{doelgroep|doelpubliek}}.` }
+  ]},
+
+/* ---------- 4 TAAL IN RECLAME & INCLUSIE ---------- */
+{ id:'taal', nr:'4', short:'Taal in reclame', kicker:'Briefing 4 · Les 12', title:'Taal die iedereen raakt',
+  sub:`Woordkeuze, tussentaal en inclusieve communicatie: met taal kun je mensen dichterbij halen, of net uitsluiten.`,
+  lpd:['2','3','10','11','13'], sticker:{name:'Inclusie-held', c:'c-lila'},
+  blocks:[
+  { type:'html', chip:'Theorie', title:'Spelen met taal en taalvariëteiten', html:`
+    <p>Reclamemakers kiezen hun woorden heel bewust. Positieve adjectieven en werkwoorden scheppen een aantrekkelijk beeld (<b>framing</b>). Ook de <b>taalvariëteit</b> is een keuze: Standaardnederlands klinkt betrouwbaar en neutraal, tussentaal of straattaal klinkt informeel, grappig of verrassend en creëert nabijheid.</p>
+    <p>Een voorbeeld: in een spot van Douwe Egberts spreken oma's Nederlandse straattaal. De slogan luidt: <q>Douwe Egberts, da's andere koffie.</q></p>
+    <a class="link" style="max-width:420px" href="${YT('Douwe Egberts reclame oma straattaal andere koffie')}" target="_blank" rel="noopener"><span class="arrow">↗</span><b>Bekijk de spot van Douwe Egberts</b><small>Let op het taalgebruik van de oma's en op de slogan.</small></a>` },
+  { type:'mc', id:'de', chip:'Oefening', title:'Da\'s andere koffie', intro:`Beantwoord de vragen over de spot en de slogan van Douwe Egberts.`,
+    qs:[
+      {q:`Waarom koos de maker ervoor om de oma's straattaal te laten spreken?`,o:[`Omdat oma's in werkelijkheid zo praten`,`Omdat het taalgebruik 'anders' is, net als de koffie: dat sluit aan bij de slogan`,`Omdat straattaal goedkoper is om op te nemen`,`Omdat de spot alleen voor Nederlanders bedoeld is`],a:1},
+      {q:`Wat is het effect van het informele 'da's' in de slogan?`,o:[`Het klinkt afstandelijk en formeel.`,`Het creëert een gevoel van nabijheid en vertrouwdheid.`,`Het maakt de slogan moeilijk te verstaan.`,`Het is een spelfout die niemand opmerkt.`],a:1},
+      {q:`Welke klanktechniek zit er nog in de slogan?`,o:[`Rijm`,`Tegenstelling`,`Beginrijm`,`Nieuw bedacht woord`],a:2,ex:`Douwe – da's: dezelfde beginklank zorgt voor ritme.`}
+    ]},
+  { type:'html', chip:'Theorie', title:'Inclusieve communicatie', html:`
+    <div class="kader"><h4>Wat is inclusieve communicatie?</h4>
+    <p style="margin:0">Inclusieve communicatie wil zoveel mogelijk mensen bereiken en houdt daarom rekening met de <b>diversiteit</b> van het doelpubliek. Het tegenovergestelde is <b>exclusieve communicatie</b>. De kernvraag: houd je voldoende rekening met gender, seksuele geaardheid, etniciteit, leeftijd, mogelijke beperkingen …? Inclusieve communicatie probeert positief en <b>vrij van stereotypen</b> te zijn.</p></div>
+    <h3>Lees eerst dit nieuwsbericht</h3>
+    <div class="mag" style="columns:1"><h3 style="font-size:22px">Belgisch koffiespotje gaat wereldwijd viraal</h3>
+    <p>Een Belgische reclame van koffiemerk Douwe Egberts is in amper een week meer dan 12 miljoen keer bekeken op X. In het ontroerende filmpje probeert een meisje haar lief angstvallig te verbergen voor haar vader, maar dat blijkt helemaal niet nodig.</p>
+    <p>Douwe Egberts Belgium zette het spotje in januari online. Een Vlaamse kijkster deelde het een paar dagen later, waarna een Amerikaanse het oppikte. Vanaf dan ging het snel: honderdduizenden likes en shares, en ook bekende namen zoals actrice Jameela Jamil verspreidden het filmpje.</p></div>
+    <p style="font-size:13px;color:#8F8675">Nieuwsbericht herschreven voor deze oefening.</p>
+    <a class="link" style="max-width:420px" href="${YT('Douwe Egberts reclame meisje verbergt lief voor vader')}" target="_blank" rel="noopener"><span class="arrow">↗</span><b>Bekijk daarna het spotje van Douwe Egberts</b><small>Een meisje verbergt haar lief voor haar vader …</small></a>` },
+  { type:'open', id:'despot', chip:'Zoekopdracht', title:'Een typevoorbeeld van inclusieve communicatie', intro:`Vergelijk het nieuwsbericht met wat je in het spotje ziet.`,
+    fields:[
+      {id:'a',label:'Waarom kun je het spotje als een typevoorbeeld van inclusieve communicatie beschouwen?',rows:3},
+      {id:'b',label:'Waarom is de tekst van het artikel minder genderinclusief te noemen?',rows:3}
+    ]},
+  { type:'links', chip:'Bronnen', title:'Bronnen over inclusief taalgebruik', intro:`Gebruik deze bronnen om inzicht te krijgen in inclusief taalgebruik. Zoek gericht naar tips en regels.`,
+    items:[
+      {u:'https://www.ugent.be/nl/univgent/missie/diversiteit-en-inclusie/voor-de-ugent-community/inclusievecommunicatie/functietitels',l:'UGent · Functietitels',s:'Zoek: hoe maak je een functietitel genderneutraal?'},
+      {u:'https://www.ugent.be/nl/univgent/missie/diversiteit-en-inclusie/voor-de-ugent-community/inclusievecommunicatie/voornaamwoorden',l:'UGent · Voornaamwoorden',s:'Zoek: welke voornaamwoorden kun je gebruiken als je iemands gender niet kent?'},
+      {u:'https://www.ugent.be/nl/univgent/missie/diversiteit-en-inclusie/voor-de-ugent-community/inclusievecommunicatie/beeldvorming',l:'UGent · Beeldvorming',s:'Zoek: waarop let je bij de keuze van beelden?'},
+      {u:'https://equal.brussels/wp-content/uploads/2024/06/Gids-voor-inclusieve-communicatie.pdf',l:'equal.brussels · Gids voor inclusieve communicatie',s:'Zoek: welke tips geeft de gids voor toegankelijke taal?'}
+    ]},
+  { type:'open', id:'inzicht', chip:'Zoekopdracht', title:'Vijf inzichten', intro:`Noteer vijf inzichten die je uit de bronnen hebt gehaald. Formuleer ze in je eigen woorden en vermeld de bron.`,
+    fields:[1,2,3,4,5].map(n=>({id:'i'+n,label:'Inzicht '+n,rows:2})) },
+  { type:'open', id:'samenv', chip:'Zelf doen', title:'Vat samen', intro:`Kies <b>één</b> van de vier bronnen en vat die samen in een doorlopende tekst van 80 tot 120 woorden. Herformuleer in je eigen woorden: kopieer geen zinnen. Begin met het onderwerp en de hoofdgedachte en geef daarna de belangrijkste tips.`,
+    fields:[{id:'bron',label:'Welke bron vat je samen?',input:true},{id:'tekst',label:'Je samenvatting',rows:7,words:[80,120]}] },
+  { type:'mc', id:'incl', chip:'Oefening', title:'Kennistest inclusief taalgebruik', intro:`Test wat je in de bronnen hebt geleerd.`,
+    qs:[
+      {q:`Wat is een kernprincipe van inclusief taalgebruik?`,o:[`Het vermijden van complexe woorden en jargon`,`Het gebruik van taal die niemand onbewust uitsluit en die diversiteit weerspiegelt`,`Het uitsluiten van bepaalde doelgroepen om de boodschap te verduidelijken`,`Het handhaven van traditionele taalstructuren om misverstanden te voorkomen`],a:1},
+      {q:`Waarom is het belangrijk om genderneutrale termen te gebruiken in communicatie?`,o:[`Omdat het juridisch verplicht is in alle Belgische overheidscommunicatie`,`Omdat het voorkomt dat bepaalde groepen zich buitengesloten voelen`,`Omdat het taalgebruik ingewikkelder maakt en professioneler klinkt`,`Omdat het alleen relevant is in feministische kringen`],a:1},
+      {q:`Wat wordt bedoeld met 'stereotyperend taalgebruik'?`,o:[`Het consistent herhalen van kernboodschappen in een tekst`,`Het vermijden van beeldspraak en metaforen in officiële teksten`,`Het gebruiken van vaktermen om een boodschap duidelijker te maken`,`Het systematisch toewijzen van rollen of eigenschappen aan bepaalde groepen`],a:3},
+      {q:`Hoe kan inclusief taalgebruik bijdragen aan toegankelijkheid voor een breed publiek?`,o:[`Door rekening te houden met verschillende achtergronden en taalniveaus`,`Door uitsluitend standaardtaal te hanteren zonder uitzonderingen`,`Door alleen teksten te schrijven in eenvoudige spreektaal`,`Door ingewikkelde formuleringen en vaktaal te gebruiken`],a:0},
+      {q:`Wat is een geschikte manier om genderinclusieve aanspreekvormen te hanteren?`,o:[`'Dames en heren' gebruiken in alle situaties`,`Alleen de mannelijke aanspreekvorm hanteren, omdat die traditioneel is`,`Algemene termen zoals 'Beste lezer' of 'Geachte klant' gebruiken`,`Mensen altijd aanspreken met hun voornaam, ongeacht de context`],a:2}
+    ]},
+  { type:'mc', id:'herschrijf', chip:'Oefening', title:'Maak het inclusief', intro:`Kies telkens de meest inclusieve formulering voor een reclameboodschap.`,
+    qs:[
+      {q:`Je opent een pitch voor een gemengd publiek.`,o:[`Beste dames en heren,`,`Beste allemaal,`,`Beste jongens,`],a:1},
+      {q:`Een supermarkt maakt reclame voor een nieuwe keukenrobot.`,o:[`Het ideale cadeau voor mama, zodat ze sneller klaar is in de keuken.`,`Voor iedereen die graag kookt: sneller klaar, meer tijd om te genieten.`,`Eindelijk kan ook papa een eitje koken!`],a:1,ex:`De andere opties wijzen een vaste rol toe aan mama of papa: dat is stereotyperend.`},
+      {q:`Een school zoekt nieuwe medewerkers.`,o:[`Wij zoeken een enthousiaste leerkracht (m/v/x).`,`Wij zoeken een enthousiaste juf.`,`Wij zoeken een man die van kinderen houdt.`],a:0},
+      {q:`Een ziekenhuis stelt zijn team voor.`,o:[`Onze verpleegsters staan dag en nacht voor u klaar.`,`Ons zorgteam staat dag en nacht voor u klaar.`,`Onze meisjes van de zorg staan voor u klaar.`],a:1},
+      {q:`Een webshop legt uit hoe je bestelt.`,o:[`Bestellen is kinderspel, dat snapt zelfs je oma.`,`Bestel in drie duidelijke stappen. Liever hulp? Bel ons gratis of chat met ons.`,`Wie niet met een computer kan werken, heeft pech.`],a:1,ex:`Duidelijke taal en meerdere kanalen maken je boodschap toegankelijk; de andere opties zijn stereotyperend of sluiten uit.`}
+    ]},
+  { type:'gap', id:'inclgap', chip:'Oefening', title:'Kernbegrippen van inclusie', intro:`Vul aan met de woorden uit de woordenbank.`,
+    text:`Inclusieve communicatie wil zoveel mogelijk mensen bereiken en houdt rekening met de {{diversiteit}} van het doelpubliek. Het tegenovergestelde is {{exclusieve}} communicatie. Je vermijdt {{stereotypen|stereotiepen}}: je kent geen vaste rollen of eigenschappen toe aan bepaalde groepen. In plaats van 'Beste dames en heren' kies je een {{genderneutrale}} aanspreking, zoals 'Beste klant'. Met duidelijke taal, ondertiteling of een voorleesfunctie maak je je boodschap {{toegankelijk}} voor mensen met verschillende achtergronden en {{taalniveaus}}.` }
+  ]},
+
+/* ---------- 5 IEDEREEN AAN BOORD ---------- */
+{ id:'aanboord', nr:'5', short:'Iedereen aan boord', kicker:'Briefing 5 · Les 31', title:'Iedereen aan boord',
+  sub:`Taal kan kwetsen, ook als het niet zo bedoeld is. Denk na over taalgevoeligheden en weeg verschillende taalinclusieve oplossingen tegen elkaar af.`,
+  lpd:['1','2','6','7+','9','10','11','13'], sticker:{name:'Taalkompas', c:'c-sky'},
+  blocks:[
+  { type:'html', chip:'Situatie', title:'Weg met lelijk of dik?', html:`
+    <p>De Britse uitgeverij van de kinderboeken van Roald Dahl bracht honderden wijzigingen aan in een nieuwe druk. Het gaat vooral over beschrijvingen van het uiterlijk van personages en over genderspecifieke woorden. Zo werd een personage dat 'dik' was nu 'enorm'. Een <b>sensitivity reader</b> nam de boeken door.</p>
+    <p>Op sociale media leidde dat tot een felle discussie. Sommigen spreken van censuur, anderen vinden het logisch dat kinderboeken die nog altijd populair zijn met hun tijd meegaan. De Nederlandse uitgeverij De Fontein reageerde kritisch: volgens haar zitten Dahls humor en kracht net in de overdrijvingen.</p>
+    <a class="link" style="max-width:520px" href="https://www.vrt.be/vrtnws/nl/2023/02/19/roald-dahl-boeken-aangepast-beledigend-taalgebruik/" target="_blank" rel="noopener"><span class="arrow">↗</span><b>Lees het artikel op VRT NWS: Weg met "lelijk" of "dik"</b><small>Let op de reacties: wie is voor, wie is tegen, en waarom?</small></a>` },
+  { type:'cat', id:'tschema', chip:'Oefening', title:'T-schema: voor of tegen de aanpassingen?', intro:`Zijn deze argumenten <b>voor</b> of <b>tegen</b> het aanpassen van de boeken?`,
+    cats:['Voor de aanpassingen','Tegen de aanpassingen'],
+    items:[
+      {t:`Je moet je niet vastklampen aan teksten alleen omdat Dahl ze geschreven heeft.`,a:0},
+      {t:`Met de originele teksten van een schrijver mag je niet knoeien.`,a:1},
+      {t:`De essentie en vindingrijkheid van Dahl blijven gewoon behouden.`,a:0},
+      {t:`Dahl gaf in zijn verhalen zelf al duiding bij gevoelige woorden.`,a:1},
+      {t:`Waarom is het een drama als er rekening wordt gehouden met mensen die wél gekwetst zijn?`,a:0},
+      {t:`'Dik' en 'enorm' betekenen ongeveer hetzelfde: wat is dan het nut?`,a:1},
+      {t:`Dahl paste zelf ook al zijn boeken aan, bijvoorbeeld de beschrijving van de Oompa Loompa's.`,a:0},
+      {t:`Dit is gewoon censuur.`,a:1},
+      {t:`Stereotypering hoort bij zijn humor: dat maakt de boeken tijdloos en krachtig.`,a:1}
+    ]},
+  { type:'html', chip:'Theorie', title:'Censuur en sensitivity readers', html:`
+    <div class="kader"><h4>Censuur</h4>
+    <p style="margin:0 0 6px">Als een <b>gezagsinstantie</b> (bijvoorbeeld een overheid of een kerkelijke instantie) beslist om uitingen te verbieden omwille van de inhoud, spreek je van censuur. Het doel is meestal om afwijkende meningen te onderdrukken.</p>
+    <ul><li><b>Preventieve censuur:</b> vóór de publicatie wordt gecontroleerd of alles aan de regels voldoet.</li>
+    <li><b>Repressieve censuur:</b> na de publicatie wordt verdere verspreiding verboden.</li></ul>
+    <p style="margin:6px 0 0">De Belgische grondwet beschermt de vrijheid van meningsuiting, maar censuur kan wel als uitlatingen ingaan tegen de verdragen van de Verenigde Naties, bijvoorbeeld als ze tot haat aanzetten.</p></div>
+    <p>Een <b>sensitivity reader</b> gaat na of bepaalde maatschappelijke groepen een publicatie als kwetsend zouden kunnen ervaren.</p>` },
+  { type:'cat', id:'censuur', chip:'Oefening', title:'Censuur of niet?', intro:`Pas de definitie toe. Let goed op wíé de beslissing neemt.`,
+    cats:['Preventieve censuur','Repressieve censuur','Geen censuur (strikt genomen)'],
+    items:[
+      {t:`Een overheid controleert elk boek voordat het mag verschijnen.`,a:0},
+      {t:`Een boek wordt na verschijnen op bevel van de regering uit alle winkels gehaald.`,a:1},
+      {t:`Een uitgeverij beslist zelf om woorden aan te passen in een nieuwe druk.`,a:2,ex:`Er is geen gezagsinstantie die iets verbiedt: de uitgeverij kiest het zelf. Je kunt het wél een vorm van zelfcensuur noemen: dat is precies waar de discussie over gaat.`},
+      {t:`Een regime blokkeert een website die kritiek levert op de regering.`,a:1},
+      {t:`Een staatscommissie moet elke film goedkeuren voordat die in de bioscoop mag.`,a:0},
+      {t:`Een krant kiest ervoor om een lezersbrief niet te publiceren.`,a:2}
+    ]},
+  { type:'open', id:'mening', chip:'Zelf doen', title:'Jouw standpunt', intro:`Is er bij de aanpassingen van Dahls boeken sprake van censuur? En vind je de aanpassingen een goed idee? Geef je mening en onderbouw ze met minstens twee argumenten. Bespreek daarna met een klasgenoot.`,
+    fields:[
+      {id:'a',label:'Mijn standpunt met argumenten',rows:6,words:[60,0]},
+      {id:'b',label:'Wat vond mijn klasgenoot? Welk argument zette mij aan het denken?',rows:3},
+      {id:'c',label:'Moeten oude boeken die kinderen vandaag nog lezen aangepast worden aan onze tijd? Waarom (niet)?',rows:3}
+    ]},
+  { type:'html', chip:'Zoekopdracht', title:'Sarah in Wokeland', html:`
+    <p>Bekijk het fragment uit het VRT-programma <i>Sarah in Wokeland</i>. Sarah gaat langs bij Rik, de eigenaar van een busmaatschappij met het woord 'zigeuner' in de naam.</p>
+    <div class="note warn">Let op: in dit fragment gaat het over een woord dat veel mensen als kwetsend ervaren. We bespreken het hier om te begrijpen wat woorden doen bij verschillende groepen, niet om het te gebruiken.</div>
+    <a class="link" style="max-width:420px" href="${GG('Sarah in Wokeland VRT MAX')}" target="_blank" rel="noopener"><span class="arrow">↗</span><b>Zoek Sarah in Wokeland op VRT MAX</b><small>Bekijk het fragment over de busmaatschappij.</small></a>` },
+  { type:'mc', id:'sarah', chip:'Oefening', title:'Vragen bij het fragment', intro:`Beantwoord de vragen nadat je het fragment hebt bekeken.`,
+    qs:[
+      {q:`Over welk probleem in verband met inclusie gaat dit fragment?`,o:[`Genderinclusie`,`Leeftijdsinclusie`,`Etnische inclusie`,`Socio-economische inclusie`],a:2,ex:`Het woord wordt gebruikt als scheldwoord voor een etnische minderheid, onder andere Roma en Sinti.`},
+      {q:`Hoe is de busmaatschappij op haar naam gekomen?`,o:[`De vader had door zijn job een zwervend bestaan: voor hen betekent het woord 'iedereen die onderweg is'.`,`Ze wilden bewust provoceren.`,`Het was de naam van een bekende film.`,`De bussen rijden vooral naar Hongarije.`],a:0},
+      {q:`Welk argument gebruikt Rik tegen een naamsverandering?`,o:[`Een nieuwe naam is te duur.`,`Negatieve aandacht is uiteindelijk ook reclame en het is niet kwetsend bedoeld.`,`De overheid verbiedt een naamsverandering.`,`Niemand heeft ooit geklaagd.`],a:1},
+      {q:`Wat is een nadeel van de omschrijvende term 'woonwagenbewoner' als alternatief?`,o:[`Het woord is te lang.`,`Het is te beperkend: niet iedereen uit die groepen woont in een woonwagen.`,`Het is een Engels woord.`,`Het is een scheldwoord.`],a:1}
+    ]},
+  { type:'open', id:'abc', chip:'Zelf doen', title:'Afwegen met de ABC-formule', intro:`Hoe onthalen verschillende groepen het woord? Kies daarna een kant (voor of tegen het gebruik van de naam door de busmaatschappij) en pas de ABC-formule toe.<div class="kader"><h4>De ABC-formule</h4><ul style="margin:0"><li><b>A</b> · Wat is de situatie?</li><li><b>B</b> · Waarom is dat een probleem, en voor wie?</li><li><b>C</b> · Is het probleem op te lossen? Hoe? Formuleer een concrete oplossing.</li></ul></div>`,
+    fields:[
+      {id:'groepen',label:'Hoe reageren verschillende groepen (klanten, Rik, critici online, Roma in Hongarije) op het woord?',rows:4},
+      {id:'kant',label:'Mijn kant',input:true,ph:'voor / tegen een naamsverandering'},
+      {id:'a',label:'A · Wat is de situatie?',rows:2},
+      {id:'b',label:'B · Waarom is dat een probleem?',rows:3},
+      {id:'c',label:'C · Is het probleem op te lossen? Hoe? (vanuit jouw kant)',rows:3}
+    ]},
+  { type:'cat', id:'incltype', chip:'Oefening', title:'Welke vorm van inclusie ontbreekt?', intro:`Bij welke soort inclusie loopt het mis in deze reclames?`,
+    cats:['Genderinclusie','Leeftijdsinclusie','Etnische inclusie','Socio-economische inclusie'],
+    items:[
+      {t:`In een autoreclame zitten alleen mannen achter het stuur; de vrouw zit naast hem en lacht.`,a:0},
+      {t:`Een kledingmerk toont voor zijn collectie 'voor iedereen' alleen modellen van rond de twintig.`,a:1},
+      {t:`Een pleistermerk biedt 'huidskleurige' pleisters aan in één lichte tint.`,a:2},
+      {t:`Een folder noemt een smartphone van 1200 euro 'de basisuitrusting van elke leerling'.`,a:3},
+      {t:`Een wasmiddelreclame: "Even je moeder bellen om je trui te wassen?"`,a:0},
+      {t:`Een bank zegt: "Alles regel je voortaan alleen nog via onze app. Geen app? Dan kunnen we je niet helpen."`,a:1,ex:`Oudere mensen die minder digitaal zijn, vallen hier vaak uit de boot. Het kan ook socio-economisch spelen: niet iedereen heeft een smartphone.`}
+    ]},
+  { type:'mc', id:'gender', chip:'Zoekopdracht', title:'Genderbewust taalgebruik', intro:`Bekijk de reportage van <i>Het Journaal Laat</i> (VRT) over genderbewust taalgebruik. <a href="${GG('Het Journaal Laat genderbewust taalgebruik VRT NWS')}" target="_blank" rel="noopener">Zoek de reportage ↗</a>`,
+    qs:[
+      {q:`Waarom krijgt 'administratief medewerker' de voorkeur op 'secretaresse'?`,o:[`Omdat het woord korter is`,`Omdat we aan 'secretaresse' automatisch een gender en een status koppelen; 'administratief medewerker' is neutraler`,`Omdat 'secretaresse' een Frans woord is`,`Omdat het beroep niet meer bestaat`],a:1},
+      {q:`Welk argument gebruikt Van der Heyden tegen de onwennigheid van genderinclusief taalgebruik?`,o:[`Alles went: ook de eerste gsm en sms-taal voelden eerst onwennig aan.`,`Taal verandert nooit.`,`Alleen jongeren moeten zich aanpassen.`,`Het is een wet, dus je moet wel.`],a:0},
+      {q:`Wat betekent 'taal schept realiteit'?`,o:[`Wie veel praat, krijgt altijd gelijk.`,`De woorden die je kiest, bepalen mee hoe je naar de werkelijkheid kijkt.`,`Taal beschrijft de realiteit altijd perfect.`,`Alleen geschreven taal is echt.`],a:1},
+      {q:`Welke genderneutrale oplossing wordt in het Nederlands gebruikt in plaats van 'hem' of 'haar'?`,o:[`'het'`,`'die' en 'hun'`,`'men'`,`'zij' voor iedereen`],a:1,ex:`In het Engels gebruikt men 'they'. Een andere optie is een volledig nieuw woord bedenken.`}
+    ]},
+  { type:'gap', id:'beroep', chip:'Oefening', title:'Neutrale beroepsnamen', intro:`Bedenk een genderneutrale term. Meerdere antwoorden zijn mogelijk; na het verbeteren zie je voorbeelden.`,
+    text:`brandweerman → {{brandweerlid|brandweerkracht|brandweerpersoon|brandweer}}<br>vroedvrouw → {{vroedkundige|vroedpersoon|verloskundige}}<br>secretaresse → {{administratief medewerker|administratief medewerkster|administratieve kracht|secretaris|office manager|officemanager}}<br>zakenman → {{ondernemer|zakenpersoon|zakenmens}}<br>schoonmaakster → {{schoonmaker|schoonmaakkracht|schoonmaakmedewerker|poetshulp|schoonmaakhulp}}<br>stewardess → {{steward|cabinepersoneel|cabinemedewerker|flight attendant}}`, nobank:true },
+  { type:'open', id:'beroep2', chip:'Zelf doen', title:'Denk verder', intro:`Bekijk nog twee beroepsnamen: <i>bouwvakker</i> en <i>burgemeester</i>.`,
+    fields:[{id:'a',label:'Zijn deze woorden al genderneutraal? Leg uit waarom (niet). Klinken ze voor jou neutraal?',rows:3}] }
+  ]},
+
+/* ---------- 6 OVERTUIGEN MET WOORDEN ---------- */
+{ id:'retoriek', nr:'6', short:'Ethos, logos, pathos', kicker:'Briefing 6 · Les 19', title:'Overtuigen met woorden',
+  sub:`Wat hebben Aristoteles, Greta Thunberg en een goede verkoper gemeen? Ze overtuigen met ethos, logos en pathos.`,
+  lpd:['1','11','12','13'], sticker:{name:'Retoriek-ridder', c:'c-mint'},
+  blocks:[
+  { type:'flip', chip:'Theorie', title:'De drie overtuigingsmiddelen van Aristoteles', intro:`Kijk en luister naar professor Jaap de Jong over de overtuigingsmiddelen van Aristoteles. <a href="${YT('Jaap de Jong ethos logos pathos')}" target="_blank" rel="noopener">Zoek de video ↗</a> Draai daarna de kaarten om.`,
+    cards:[
+      {big:'Ethos',t:'geloofwaardigheid',b:`De spreker moet geloofwaardig overkomen: door karakter, deskundigheid, woordkeuze en presentatie.<br><br><i>"Waarom zou ik jou geloven?"</i>`},
+      {big:'Logos',t:'redelijkheid',b:`Een goede inhoud en goede argumenten zijn nodig om te overtuigen: feiten, cijfers, logische redeneringen.<br><br><i>"Klopt het wat je zegt?"</i>`},
+      {big:'Pathos',t:'emotie',b:`De gevoelens van het publiek moeten geraakt worden: verhalen, beelden, humor, angst, trots, hoop.<br><br><i>"Raakt het mij?"</i>`}
+    ]},
+  { type:'cat', id:'elp', chip:'Oefening', title:'Ethos, logos of pathos?', intro:`Welk overtuigingsmiddel gebruikt de spreker vooral?`,
+    cats:['Ethos','Logos','Pathos'],
+    items:[
+      {t:`"Als arts met twintig jaar ervaring weet ik waarover ik spreek."`,a:0},
+      {t:`"Onze fietslamp gaat 40 uur mee op één laadbeurt: dubbel zo lang als de meeste andere lampen."`,a:1},
+      {t:`"Stel je voor dat je kleine zus 's avonds alleen in het donker naar huis fietst …"`,a:2},
+      {t:`"Een abonnement kost 5 euro per maand. Eén nieuwe band kost al snel 30 euro."`,a:1},
+      {t:`"Ik gebruik dit product zelf elke dag, anders zou ik het jullie nooit aanraden."`,a:0},
+      {t:`"Wil jij ook dat je kinderen later nog in een groen bos kunnen spelen?"`,a:2},
+      {t:`"Uit onze metingen blijkt dat je met deze douchekop 30% minder water verbruikt."`,a:1},
+      {t:`"Ons team bestaat uit gediplomeerde diëtisten."`,a:0},
+      {t:`"Voel je de rust al? Dat is het gevoel van thuiskomen."`,a:2}
+    ]},
+  { type:'html', chip:'Theorie', title:'Toespraak en stijlmiddelen', html:`
+    <p>Een goede toespraak bevat bijna altijd stijlmiddelen. Ze trekken de aandacht van de luisteraars en zijn vaak <b>claptraps</b>: ze lokken applaus uit.</p>
+    <div class="two">
+      <div class="mini"><b>Woordherhaling</b><br>Hetzelfde woord komt meermaals terug.</div>
+      <div class="mini"><b>Anafoor</b><br>Herhaling aan het begin van een zin.<br><q>We shall not flag or fail. We shall go on to the end.</q> (Churchill)</div>
+      <div class="mini"><b>Retorische vraag</b><br>Een vraag waarop geen antwoord verwacht wordt.<br><q>Hoe lang moeten wij dit nog verdragen?</q> (Cicero)</div>
+      <div class="mini"><b>Drieslag (tricolon)</b><br>Een opsomming in drie delen.<br><q>… tracked down, … hunted down and … defeated.</q> (Obama)</div>
+    </div>` },
+  { type:'cat', id:'stijl', chip:'Oefening', title:'Herken het stijlmiddel', intro:`Welk stijlmiddel valt het meest op? Soms zijn er twee goede antwoorden. Fragment 1 komt uit <i>Pale Blue Dot</i> van astronoom Carl Sagan: <a href="${YT('Carl Sagan Pale Blue Dot Nederlands ondertiteld')}" target="_blank" rel="noopener">bekijk de toespraak ↗</a>`,
+    cats:['Anafoor','Retorische vraag','Drieslag','Woordherhaling'],
+    items:[
+      {t:`"Dat is hier. Dat is thuis. Dat zijn wij." (Sagan)`,a:[0,2]},
+      {t:`"Hoe lang moeten wij dit nog verdragen?" (Cicero)`,a:1},
+      {t:`"Wij geloven in eerlijkheid. Wij geloven in kwaliteit."`,a:0},
+      {t:`"Snel, slim en spotgoedkoop."`,a:2},
+      {t:`"Koffie. Gewoon koffie. Echte koffie, zoals koffie hoort te smaken."`,a:3},
+      {t:`"Wie wil er nu niet elke ochtend uitgerust wakker worden?"`,a:1},
+      {t:`We kunnen de wereld niet redden door de regels te volgen, want de regels moeten veranderen. (naar Thunberg)`,a:3},
+      {t:`"Lees het. Voel het. Beleef het."`,a:[2,0]}
+    ]},
+  { type:'open', id:'greta', chip:'Zelf doen', title:'Ethos, logos en pathos bij Greta Thunberg', intro:`Bekijk de toespraak van Greta Thunberg op de VN-klimaattop (COP24, 2018). Zet de ondertitels aan als je dat wilt. <a href="${YT('Greta Thunberg speech COP24 ondertiteld')}" target="_blank" rel="noopener">Zoek de toespraak ↗</a> In welke mate vind je logos, ethos en pathos terug? Geef telkens een voorbeeld. Hoor je ook anaforen, retorische vragen of een drieslag?`,
+    fields:[{id:'l',label:'Logos',rows:3},{id:'e',label:'Ethos',rows:3},{id:'p',label:'Pathos',rows:3}] },
+  { type:'html', chip:'Theorie', title:'Prosodie: hoe je het zegt', html:`
+    <p>Een tekst wordt pas een toespraak als je hem goed brengt. <b>Prosodie</b> is de melodie en het ritme van je spreken:</p>
+    <div class="two">
+      <div class="mini"><b>Intonatie</b><br>Je stem gaat op en neer. Een monotone stem doet mensen afhaken.</div>
+      <div class="mini"><b>Klemtoon</b><br>Je legt nadruk op de belangrijkste woorden.</div>
+      <div class="mini"><b>Tempo en pauzes</b><br>Vertraag bij iets belangrijks. Een pauze na je slogan laat hem landen.</div>
+      <div class="mini"><b>Volume</b><br>Iedereen moet je verstaan, ook achteraan in de klas.</div>
+    </div>` },
+  { type:'mc', id:'pros', chip:'Oefening', title:'Prosodie-check', intro:`Test je inzicht.`,
+    qs:[
+      {q:`Wat valt onder prosodie?`,o:[`Je woordkeuze en spelling`,`Intonatie, klemtoon, tempo, pauzes en volume`,`De volgorde van je argumenten`,`Je kleding en houding`],a:1},
+      {q:`Waarom las je best een korte pauze in na je slogan?`,o:[`Om even te kunnen ademen`,`Zodat het publiek tijd krijgt om de slogan te laten bezinken`,`Omdat je je tekst kwijt bent`,`Om de pitch langer te maken`],a:1},
+      {q:`Wat is het effect van een monotone stem?`,o:[`Het publiek haakt af en je boodschap verliest overtuigingskracht.`,`Je komt rustiger en dus overtuigender over.`,`Het publiek onthoudt je slogan beter.`,`Er is geen effect.`],a:0}
+    ]}
+  ]},
+
+/* ---------- 7 PITCH LAB ---------- */
+{ id:'pitch', nr:'7', short:'Pitch lab', kicker:'Briefing 7 · Spreekopdracht', title:'Jouw inclusieve sales pitch',
+  sub:`Nu ben jij aan zet. Kies een product of dienst en overtuig de klas in 1 à 2 minuten. Je wordt beoordeeld op overtuigingskracht, inclusiviteit, structuur en taalgebruik.`,
+  lpd:['2','4','5','7+','10','11','14'], sticker:{name:'Pitch-prof', c:'c-tomato'},
+  blocks:[
+  { type:'html', chip:'Theorie', title:'Wat is een sales pitch?', html:`
+    <p>Een <b>sales pitch</b> is een korte, overtuigende presentatie waarmee je een publiek wint voor je product, dienst of idee. Je hebt weinig tijd, dus elke zin telt.</p>
+    <div class="two">
+      <div class="mini"><b>Duur</b><br>1 à 2 minuten</div>
+      <div class="mini"><b>Structuur</b><br>AIDA: aandacht, interesse, verlangen, actie</div>
+      <div class="mini"><b>Verplicht</b><br>Een eigen slogan, inclusief taalgebruik</div>
+      <div class="mini"><b>Middelen</b><br>Ethos, logos, pathos, stijlmiddelen en prosodie</div>
+    </div>` },
+  { type:'links', chip:'Bronnen', title:'Hulplijnen: websites over pitchen', intro:`Lees deze websites en zoek tips voor je eigen pitch.`,
+    items:[
+      {u:'https://piktochart.com/nl/blog/succesvol-zakelijk-pitch/',l:'Piktochart · Hoe maak je een succesvolle sales pitch: 9 tips van experts',s:'Zoek de 9 tips en de WHAC-methode.'},
+      {u:'https://www.superoffice.nl/resources/artikelen/sales-pitch/',l:'SuperOffice · Sales pitch',s:'Zoek: hoe begin je een pitch sterk?'},
+      {u:'https://www.teamleader.eu/nl-be/blog/sales-pitch',l:'Teamleader · Sales pitch',s:'Zoek: welke fouten moet je vermijden?'},
+      {u:'https://www.b2bmarketeers.nl/b2b-sales/wat-is-een-goede-sales-pitch-en-wat-is-daar-voor-nodig-tips-voorbeelden/',l:'B2B Marketeers · Wat is een goede sales pitch?',s:'Zoek: welke voorbeelden spreken je aan?'}
+    ]},
+  { type:'open', id:'pikto', chip:'Zoekopdracht', title:'Speurtocht op de hulplijnen', intro:`Zoek de antwoorden op de websites hierboven.`,
+    fields:[
+      {id:'whac',label:'Piktochart stelt de WHAC-methode voor. Waar staan de vier letters voor?',rows:3},
+      {id:'tips',label:'Kies drie van de negen tips die jij zeker gaat toepassen. Waarom net die?',rows:4},
+      {id:'open',label:'Welke tip voor een sterke opening vind je op een van de andere websites? Vermeld de website.',rows:3}
+    ]},
+  { type:'open', id:'boeit', chip:'Zoekopdracht', title:'Een pitch die mij boeit', intro:`Zoek zelf een sales pitch die jou boeit. Ideeën: een productvoorstelling van een techbedrijf, een pitch in een tv-programma zoals <i>Dragons' Den</i> of <i>Shark Tank</i>, een Kickstarter-video, een pitch van een leerlingenbedrijf (Vlajo), een reclamespot … Ontleed hem en leg uit waarom hij werkt.`,
+    fields:[
+      {id:'link',label:'Titel en link van de pitch',input:true,ph:'https://…'},
+      {id:'wat',label:'Product of dienst en doelgroep',rows:2},
+      {id:'aida',label:'Hoe zie je A, I, D en A terug?',rows:4},
+      {id:'elp',label:'Geef een voorbeeld van ethos, logos en pathos.',rows:4},
+      {id:'stijl',label:'Welke stijlmiddelen, slogan of lichaamstaal vallen op?',rows:3},
+      {id:'waarom',label:'Waarom werkt deze pitch? Argumenteer met minstens twee argumenten.',rows:6,words:[80,0]}
+    ]},
+  { type:'open', id:'st1', chip:'Stap 1 en 2', title:'Kies je product en oriënteer je', intro:`Kies een product of dienst: bijvoorbeeld een voedingsproduct, een schoonheidsproduct, een dienst (bezorging, klantenservice …) of een duurzaam vervoermiddel.`,
+    fields:[
+      {id:'prod',label:'Mijn product of dienst',input:true,ph:'een herbruikbare lunchbox die je eten warm houdt'},
+      {id:'doel',label:'Wie is mijn doelgroep? Omschrijf zo concreet mogelijk.',rows:3},
+      {id:'incl',label:'Hoe ga ik zo inclusief mogelijk zijn? (woordkeuze, toegankelijkheid, diversiteit in mijn voorbeelden)',rows:3},
+      {id:'werk',label:'Mijn persoonlijk werkpunt. Bekijk de rubric in briefing 8.',rows:2}
+    ]},
+  { type:'open', id:'st3', chip:'Stap 3', title:'Brainstorm', intro:`Wat zijn de sterke punten van je product en hoe breng je ze overtuigend?`,
+    fields:[
+      {id:'brain',label:'Brainstorm: alles wat in je opkomt',rows:5},
+      {id:'usp',label:'Mijn twee unieke verkoopargumenten (USP\'s)',rows:3}
+    ]},
+  { type:'open', id:'st4', chip:'Stap 4', title:'De rol van taal en lichaamstaal', intro:`Bepaal hoe je je boodschap duidelijk en wervend overbrengt.`,
+    fields:[
+      {id:'taal',label:'Hoe pas ik mijn taalgebruik aan? Welke stijlmiddelen gebruik ik (anafoor, drieslag, retorische vraag …)?',rows:3},
+      {id:'toon',label:'Welke toon en intonatie gebruik ik?',rows:2},
+      {id:'lich',label:'Hoe zet ik lichaamstaal en expressie in?',rows:2},
+      {id:'check',label:'Inclusie-check: lees je tekst na. Sluit een woord of voorbeeld iemand uit? Wat pas je aan?',rows:3}
+    ]},
+  { type:'open', id:'st5', chip:'Stap 5', title:'Bedenk je slogan', intro:`Een goede slogan is kort, krachtig en spreekt een breed publiek aan. Je verwerkt hem in je pitch.`,
+    fields:[{id:'slog',label:'Mijn slogan',input:true,ph:'Warm vanbinnen, groen vanbuiten.'},{id:'tech',label:'Welke techniek(en) gebruik ik?',input:true}] },
+  { type:'open', id:'st6', chip:'Stap 6', title:'Mijn pitch volgens AIDA', intro:`Werk je pitch uit met de AIDA-structuur. Je kunt kernwoorden of volzinnen noteren.`,
+    fields:[
+      {id:'a',label:'A · Attention: mijn opvallende opening',rows:3},
+      {id:'i',label:'I · Interest: zo maak ik het interessant en relevant voor mijn doelgroep',rows:4},
+      {id:'d',label:'D · Desire: zo wek ik verlangen (ethos, logos, pathos)',rows:4},
+      {id:'act',label:'A · Action: mijn oproep tot actie',rows:2}
+    ]},
+  { type:'pitchcard', chip:'Spiekbriefje', title:'Je pitchkaart', intro:`Deze kaart vult zich automatisch met wat je hierboven invulde. Handig om mee te oefenen.` },
+  { type:'timer', chip:'Stap 7', title:'Oefen je pitch', intro:`Oefen hardop en let op tempo, stemgebruik en lichaamstaal. Je pitch duurt 1 à 2 minuten. Start de timer.` },
+  { type:'open', id:'st7', chip:'Stap 7', title:'Na het oefenen', intro:`Presenteer daarna je pitch voor de klas en luister naar de feedback.`,
+    fields:[
+      {id:'goed',label:'Wat ging al goed tijdens het oefenen?',rows:2},
+      {id:'aanp',label:'Wat pas ik nog aan voor de echte pitch?',rows:2}
+    ]},
+  { type:'open', id:'refl', chip:'Reflectie', title:'Reflectievraag', intro:`Hoe kan taal onbedoeld exclusief zijn, en hoe heb je dat in jouw pitch voorkomen?`,
+    fields:[{id:'r',label:'Mijn reflectie',rows:6,words:[60,0]}] }
+  ]},
+
+/* ---------- 8 SPIEGEL ---------- */
+{ id:'spiegel', nr:'8', short:'Spiegel en feedback', kicker:'Briefing 8 · Na je pitch', title:'In de spiegel kijken',
+  sub:`Beoordeel je eigen pitch met dezelfde rubric als je leerkracht en voer een feedbackgesprek met een klasgenoot.`,
+  lpd:['6','14'], sticker:{name:'Spiegelkampioen', c:'c-lila'},
+  blocks:[
+  { type:'rubric', chip:'Zelfevaluatie', title:'Rubric sales pitch', intro:`Klik per criterium op het niveau dat bij je pitch past. Kies eerst <b>Ik scoor mezelf</b>. Laat daarna een klasgenoot kiezen met <b>Klasgenoot scoort mij</b>.` },
+  { type:'open', id:'fb', chip:'Interactie', title:'Feedbackgesprek in tweetallen', intro:`<b>Spelregels:</b> geef concrete voorbeelden, spreek in ik-boodschappen ("Ik merkte dat …"), stel minstens één vervolgvraag en bedank elkaar. Luister eerst, verdedig je pas daarna.`,
+    fields:[
+      {id:'wie',label:'Mijn feedbackgever',input:true},
+      {id:'top',label:'Top: wat werkte volgens mijn klasgenoot echt goed?',rows:2},
+      {id:'tip',label:'Tip: wat kan beter?',rows:2},
+      {id:'vraag',label:'Welke vervolgvraag stelde ik aan mijn feedbackgever en wat was het antwoord?',rows:3},
+      {id:'reactie',label:'Hoe reageerde ik op de feedback? Ben ik het ermee eens? Waarom (niet)?',rows:3}
+    ]},
+  { type:'open', id:'werk', chip:'Reflectie', title:'Mijn werkpunten', intro:`Kijk terug op je pitch, de rubric en de feedback.`,
+    fields:[
+      {id:'goed',label:'Wat ging goed?',rows:2},
+      {id:'niet',label:'Wat ging niet goed?',rows:2},
+      {id:'next',label:'Mijn werkpunten voor een volgende spreekopdracht',rows:3},
+      {id:'wp',label:'Heb ik mijn persoonlijk werkpunt uit stap 2 bereikt?',rows:2}
+    ]}
+  ]},
+
+/* ---------- 9 EXIT ---------- */
+{ id:'exit', nr:'★', short:'Exit ticket', kicker:'Laatste check', title:'Exit ticket',
+  sub:`Tien vragen over de kern van het traject. Haal je de staande ovatie?`,
+  lpd:['11','13'], sticker:{name:'Copywriter-diploma', c:'c-mustard'},
+  blocks:[
+  { type:'mc', id:'exitq', chip:'Quiz', title:'Exit ticket', intro:`Beantwoord alle vragen en klik op <i>Verbeter</i>.`,
+    qs:[
+      {q:`"Bestel vandaag en ontvang gratis verzending." Welke AIDA-fase is dit?`,o:[`Aandacht`,`Interesse`,`Verlangen`,`Actie`],a:3},
+      {q:`Wat is een advertorial?`,o:[`Een reclame op een billboard`,`Een advertentie in de vorm van een redactioneel artikel`,`Een interview met een tevreden klant`,`Een korte, krachtige reclamezin`],a:1},
+      {q:`Een testimonial waarin de klant alleen met initialen vermeld wordt, is …`,o:[`altijd echt.`,`waarschijnlijk gefingeerd.`,`verboden in België.`,`een vorm van censuur.`],a:1},
+      {q:`Op welke techniek steunt de slogan "Lekker, licht en lokaal"?`,o:[`Tegenstelling`,`Woordspeling`,`Beginrijm`,`Nieuw bedacht woord`],a:2,ex:`Je hoort ook een drieslag: lekker, licht en lokaal.`},
+      {q:`"Als olympisch zwemster weet ik hoe belangrijk goede voeding is." Welk overtuigingsmiddel is dit?`,o:[`Ethos`,`Logos`,`Pathos`,`Prosodie`],a:0},
+      {q:`Welke aanspreking is het meest inclusief?`,o:[`Beste dames en heren`,`Beste bezoeker`,`Beste jongens`,`Geachte heer`],a:1},
+      {q:`Wat doet een sensitivity reader?`,o:[`Hij of zij leest boeken voor aan kinderen.`,`Die gaat na of bepaalde groepen een tekst als kwetsend kunnen ervaren.`,`Die controleert de spelling van een tekst.`,`Die verbiedt boeken in opdracht van de overheid.`],a:1},
+      {q:`Wat bedoelt men met 'taal schept realiteit'?`,o:[`Woorden bepalen mee hoe we naar de werkelijkheid kijken.`,`Taal verandert nooit.`,`Alleen nieuwe woorden zijn echt.`,`Realiteit en taal hebben niets met elkaar te maken.`],a:0},
+      {q:`Wat is een retorische vraag?`,o:[`Een vraag die je aan het einde van een toets stelt`,`Een vraag waarop eigenlijk geen antwoord verwacht wordt`,`Een vraag met drie antwoordmogelijkheden`,`Een vraag die je publiek moet beantwoorden`],a:1},
+      {q:`Waarom werkt storytelling in marketing?`,o:[`Omdat verhalen altijd grappig zijn`,`Omdat klanten zich emotioneel verbonden voelen met het verhaal achter een merk`,`Omdat het goedkoper is dan reclame`,`Omdat verhalen geen informatie bevatten`],a:1}
+    ]},
+  { type:'finish' }
+  ]},
+
+/* ---------- LEERKRACHT ---------- */
+{ id:'leerkracht', nr:'L', short:'Voor de leerkracht', kicker:'Leerplan III-Ned-da', title:'Koppeling met de leerplandoelen',
+  sub:`Overzicht van de leerplandoelen (Nederlands 3de graad D/A-finaliteit, KOV 2024) die dit traject realiseert.`,
+  lpd:[], teacher:true,
+  blocks:[{ type:'lpd' }]}
+];
+
+const RUBRIC = {
+  levels:['Uitstekend','Goed','Voldoende','Zwak'],
+  crit:[
+    {n:'Inhoud en structuur (AIDA)',d:[`Volgt perfect de AIDA-structuur: sterke opening, duidelijke interesse-opbouw, overtuigende argumenten en een krachtige call-to-action.`,`De AIDA-structuur is grotendeels aanwezig, maar één element ontbreekt of is minder sterk uitgewerkt.`,`Bevat enkele AIDA-elementen, maar mist logische opbouw of overtuigingskracht.`,`De AIDA-structuur is nauwelijks of niet herkenbaar; de pitch mist samenhang.`]},
+    {n:'Overtuigingskracht',d:[`Zeer overtuigend: sterke argumenten, emotie en enthousiasme betrekken het publiek.`,`Overtuigend, maar mist af en toe impact of variatie in argumentatie.`,`Enkele overtuigende momenten, maar de pitch blijft grotendeels vlak.`,`Overtuigt nauwelijks; de pitch mist enthousiasme en argumentatie.`]},
+    {n:'Inclusiviteit en toegankelijkheid',d:[`Zeer inclusief: toegankelijk taalgebruik, geen stereotypen, spreekt een breed publiek aan.`,`Grotendeels inclusief, met een paar verbeterpunten in taal of doelgroepgerichtheid.`,`Deels inclusief, maar sommige keuzes sluiten bepaalde groepen uit.`,`Mist inclusiviteit en is niet afgestemd op een breed publiek.`]},
+    {n:'Taalgebruik (woordkeuze en correctheid)',d:[`Zeer verzorgd taalgebruik, heldere en doeltreffende woordkeuze, geen storende fouten.`,`Over het algemeen correct, enkele kleine fouten die de boodschap niet verstoren.`,`Redelijk correct, maar meerdere fouten beïnvloeden de verstaanbaarheid.`,`Veel taalfouten die de boodschap onduidelijk maken.`]},
+    {n:'Spreektechniek (stem, articulatie, tempo, intonatie)',d:[`Duidelijke articulatie, goed volume, passend tempo en levendige intonatie die de boodschap versterkt.`,`Goed verstaanbaar, maar soms wat te snel, te traag of monotoon.`,`Soms moeilijk verstaanbaar door te snel, te zacht of monotoon spreken.`,`Onverstaanbaar door slechte articulatie, te zacht spreken of een monotone stem.`]},
+    {n:'Lichaamstaal en expressie',d:[`Open en zelfverzekerde lichaamstaal, goed oogcontact, expressieve mimiek.`,`Goede lichaamstaal en oogcontact, maar af en toe minder expressief.`,`Beperkte lichaamstaal; weinig expressie of oogcontact.`,`Gesloten of nerveuze houding, geen oogcontact, nauwelijks expressie.`]},
+    {n:'Slogan en creativiteit',d:[`De slogan is origineel, krachtig en goed geïntegreerd in de pitch.`,`Creatief en boeiend; de slogan is sterk en passend, maar de presentatie mist wat creativiteit.`,`De slogan is aanwezig, maar weinig overtuigend of niet goed geïntegreerd.`,`Geen slogan of een erg zwakke, ongeïnspireerde keuze.`]},
+    {n:'Algemene impact op het publiek',d:[`Het publiek is geboeid, de pitch maakt indruk en zet aan tot actie.`,`Het publiek is geïnteresseerd, maar niet volledig overtuigd.`,`De pitch wordt beluisterd, maar wekt weinig enthousiasme.`,`Het publiek is niet geboeid en reageert nauwelijks.`]}
+  ]
+};
+
+const LPD = [
+  ['LPD 1','Onderwerp, hoofdgedachte en hoofdpunten bepalen bij lezen, luisteren en kijken','Reclamespots (VRT, Omer, Douwe Egberts), leestest advertorial, Jaap de Jong, Sarah in Wokeland, Journaal Laat','1, 2, 5, 6','sterk'],
+  ['LPD 2','Relevante informatie selecteren; kritisch omgaan met betrouwbaarheid','Advertorial ontmaskeren (bron, gefingeerde testimonial), bronnen over inclusief taalgebruik, speurtocht hulplijnen, pitch zoeken','2, 4, 5, 7','sterk'],
+  ['LPD 3','Een geschreven tekst schriftelijk samenvatten','Samenvatting van een bron over inclusieve communicatie (80–120 woorden, eigen woorden)','4','gedekt'],
+  ['LPD 4','Doelgericht spreken (presenteren)','Inclusieve sales pitch van 1–2 min. met AIDA, slogan, ethos/logos/pathos','7','sterk'],
+  ['LPD 5','Zich creatief uitdrukken met taal','Sloganfabriek, eigen slogan, creatieve opening van de pitch','3, 7','gedekt'],
+  ['LPD 6','Doelgericht deelnemen aan interactie','Feedbackgesprek in tweetallen, bespreking standpunt Roald Dahl','5, 8','gedekt'],
+  ['LPD 7+','Een eigen mening beargumenteren','Standpunt over censuur, ABC-formule, waarom een gekozen pitch werkt','5, 7','gedekt'],
+  ['LPD 8','Eigen beleving en interpretatie van literaire teksten','–','–','niet'],
+  ['LPD 9','Relevantie van literaire teksten voor leefwereld en samenleving','Discussie over het aanpassen van Dahls kinderboeken aan onze tijd','5','deels'],
+  ['LPD 10','Effect van taaluitingen en taalvariëteiten op identiteit en sociale omgang','Inclusieve communicatie, straattaal/tussentaal in reclame, kwetsende benamingen, genderbewust taalgebruik','4, 5, 7','sterk'],
+  ['LPD 11','Inzicht in taalgebruik (communicatiemodel, register, vaste tekststructuren, humor)','AIDA, persuasieve teksttypes, advertorial/testimonial, framing, retorica, prosodie','1–7, exit','sterk'],
+  ['LPD 12','Inzicht in het taalsysteem (klank, woord, betekenis)','Beginrijm en rijm, woordspeling, genderneutrale woordvorming, stijlfiguren','3, 5, 6','gedekt'],
+  ['LPD 13','Woordenschat inzetten (school- en vaktaal)','Gap fills vaktaal reclame en inclusie, begrippen ethos/logos/pathos, censuur, sensitivity reader','2–6, exit','sterk'],
+  ['LPD 14','Strategieën inzetten','Leesstrategie bij de leestest, stappenplan pitch, werkpunt, oefentimer, zelfevaluatie met rubric','0, 2, 7, 8','sterk']
+];
+
+/* ================= STATE ================= */
+const KEY = 'bureauOvertuig_v1';
+let S = {ans:{}, ex:{}, rub:{}, cur:'welkom', rubMode:'self', timer:{}};
+try{ const raw = localStorage.getItem(KEY); if(raw){ S = Object.assign(S, JSON.parse(raw)); } }catch(e){}
+let saveT;
+function save(){
+  clearTimeout(saveT);
+  saveT = setTimeout(()=>{
+    try{ localStorage.setItem(KEY, JSON.stringify(S)); const s=document.getElementById('saved'); s.classList.add('on'); setTimeout(()=>s.classList.remove('on'),1200);}catch(e){}
+  },250);
+}
+
+const BLOCKS = {};
+SECTIONS.forEach(s=>s.blocks.forEach(b=>{ if(b.id) BLOCKS[b.id]=b; b._sec=s.id; }));
+
+const esc = t => String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const strip = h => { const d=document.createElement('div'); d.innerHTML=h; return d.textContent; };
+const words = t => (t||'').trim().split(/\s+/).filter(Boolean).length;
+const norm = t => (t||'').toLowerCase().trim().replace(/[.,;:!?'"]/g,'').replace(/\s+/g,' ');
+const fid = (b,f) => b.id+'.'+f.id;
+
+/* gap parse */
+function gapParts(b){
+  const parts=[]; const re=/\{\{(.*?)\}\}/g; let m, last=0, k=0;
+  while((m=re.exec(b.text))){ parts.push({t:b.text.slice(last,m.index)}); parts.push({g:k++, alts:m[1].split('|')}); last=re.lastIndex; }
+  parts.push({t:b.text.slice(last)}); return parts;
+}
+
+/* ================= TASKS & PROGRESS ================= */
+function isDone(b){
+  if(['mc','cat','gap'].includes(b.type)) return !!S.ex[b.id];
+  if(b.type==='open') return b.fields.every(f=>(S.ans[fid(b,f)]||'').trim().length>0);
+  if(b.type==='rubric') return RUBRIC.crit.every((c,i)=>S.rub[i] && S.rub[i].self!=null);
+  return null;
+}
+function tasksOf(sec){ return sec.blocks.filter(b=>isDone(b)!==null); }
+function secDone(sec){ const t=tasksOf(sec); return t.length>0 && t.every(isDone); }
+function progress(){
+  let tot=0, d=0;
+  SECTIONS.filter(s=>!s.teacher).forEach(s=>tasksOf(s).forEach(b=>{tot++; if(isDone(b)) d++;}));
+  return tot? Math.round(d/tot*100):0;
+}
+const MOODS=[[0,'stilte in de zaal'],[1,'iemand kucht'],[15,'beleefd applaus'],[40,'luid applaus'],[65,'gejoel in de zaal'],[90,'bijna een ovatie'],[100,'staande ovatie!']];
+
+function updateChrome(){
+  const p=progress();
+  document.getElementById('meterFill').style.width=p+'%';
+  document.getElementById('meterPct').textContent=p+'%';
+  document.getElementById('meterbar').setAttribute('aria-valuenow',p);
+  let mood=MOODS[0][1]; MOODS.forEach(m=>{ if(p>=m[0]) mood=m[1]; });
+  document.getElementById('meterMood').textContent=mood;
+  const n=S.ans['id.naam'], k=S.ans['id.klas'];
+  document.getElementById('who').textContent = n ? (n+(k?' · '+k:'')) : '';
+  // route
+  document.getElementById('route').innerHTML = SECTIONS.map(s=>`<li class="${s.teacher?'teacher':''}"><button data-go="${s.id}" class="${S.cur===s.id?'cur':''} ${!s.teacher&&secDone(s)?'done':''}"><span class="nr">${!s.teacher&&secDone(s)?'✓':s.nr}</span><span>${esc(s.short)}</span></button></li>`).join('');
+  // scores
+  let rows='', ts=0, tm=0;
+  SECTIONS.forEach(s=>s.blocks.forEach(b=>{
+    if(!['mc','cat','gap'].includes(b.type)) return;
+    const max = maxOf(b); tm+=max;
+    const r=S.ex[b.id];
+    if(r) ts+=r.score;
+    rows+=`<tr><td>${esc(strip(b.title))}</td><td>${r? r.score+'/'+max : '<span class="na">–/'+max+'</span>'}</td></tr>`;
+  }));
+  rows+=`<tr class="tot"><td>Totaal</td><td>${ts}/${tm}</td></tr>`;
+  document.getElementById('scores').innerHTML=rows;
+  // stickers
+  document.getElementById('stickers').innerHTML = stickerHTML();
+  const hs=document.querySelector('.hero-sticker');
+  if(hs){ const sec=SECTIONS.find(s=>s.id===S.cur); if(sec&&!sec.teacher){ hs.classList.toggle('got',secDone(sec)); hs.innerHTML=secDone(sec)?'✓<br>'+esc(sec.sticker.name):'sticker:<br>'+esc(sec.sticker.name);} }
+  const fin=document.getElementById('finishBox'); if(fin) fin.innerHTML=finishInner();
+}
+function stickerHTML(){
+  return SECTIONS.filter(s=>!s.teacher).map(s=>`<span class="sticker ${secDone(s)?'got '+s.sticker.c:''}">${secDone(s)?'★ ':''}${esc(s.sticker.name)}</span>`).join('');
+}
+function maxOf(b){ return b.type==='mc'?b.qs.length : b.type==='cat'?b.items.length : gapParts(b).filter(p=>p.g!=null).length; }
+function totals(){ let ts=0,tm=0; Object.values(BLOCKS).forEach(b=>{ if(['mc','cat','gap'].includes(b.type)){ tm+=maxOf(b); if(S.ex[b.id]) ts+=S.ex[b.id].score; } }); return [ts,tm]; }
+
+/* ================= RENDER ================= */
+function chip(b){
+  const map={'Theorie':'c-lila','Oefening':'c-mint','Zelf doen':'c-mustard','Zoekopdracht':'c-tomato','Leestekst':'c-sky','Bronnen':'c-sky','Quiz':'c-mustard','Reflectie':'c-lila','Interactie':'c-tomato','Zelfevaluatie':'c-mint','Spiekbriefje':'c-mustard','Opwarmer':'c-mustard','Situatie':'c-sky','Zo werkt het':'c-sky'};
+  const c = map[b.chip] || 'c-mustard';
+  return b.chip?`<span class="chip ${c}">${esc(b.chip)}</span>`:'';
+}
+function head(b){ return `${chip(b)}${b.title?`<h2>${b.title}</h2>`:''}${b.intro?`<p class="intro">${b.intro}</p>`:''}`; }
+
+function rHtml(b){ return `<section class="block">${head(b)}${b.html}</section>`; }
+function rReading(b){ return `<section class="block">${head(b)}${b.html}</section>`; }
+function rFlip(b){
+  return `<section class="block">${head(b)}<div class="flips">${b.cards.map((c,i)=>`<button class="flip" data-flip aria-label="Draai kaart ${esc(c.t)} om"><span class="f-front">${c.big?`<span class="f-big">${c.big}</span>`:''}<span class="f-title">${esc(c.t)}</span></span><span class="f-back">${c.b}</span><span class="f-hint">↻ draai om</span></button>`).join('')}</div></section>`;
+}
+function rLinks(b){
+  return `<section class="block">${head(b)}<div class="links">${b.items.map(l=>`<a class="link" href="${l.u}" target="_blank" rel="noopener"><span class="arrow">↗</span><b>${esc(l.l)}</b><small>${esc(l.s)}</small></a>`).join('')}</div></section>`;
+}
+function rOpen(b){
+  const fs=b.fields.map(f=>{
+    const id=fid(b,f), v=S.ans[id]||'';
+    const ctl = f.input ? `<input type="text" id="${id}" data-f="${id}" value="${esc(v)}" placeholder="${esc(f.ph||'')}">`
+      : `<textarea id="${id}" data-f="${id}" rows="${f.rows||3}" placeholder="${esc(f.ph||'')}" ${f.words?`data-words="${f.words.join(',')}"`:''}>${esc(v)}</textarea>`;
+    return `<label class="fl" for="${id}">${esc(f.label)}</label>${ctl}${f.words?`<div class="wc" data-wc="${id}">${wcText(v,f.words)}</div>`:''}`;
+  }).join('');
+  return `<section class="block" data-block="${b.id}">${head(b)}${fs}</section>`;
+}
+function wcText(v,w){
+  const n=words(v); const [mn,mx]=w;
+  const target = mx? `${mn}–${mx}` : `min. ${mn}`;
+  return `Woorden: ${n} / ${target}`;
+}
+function wcOk(v,w){ const n=words(v); return n>=w[0] && (!w[1]||n<=w[1]); }
+
+function checkBar(b){
+  const r=S.ex[b.id];
+  if(r){
+    const max=maxOf(b); const full=r.score===max;
+    const cheer = full?'Perfect, de zaal gaat uit de bol!': r.score/max>=.6?'Goed bezig! Bekijk de feedback.':'Lees de feedback en probeer opnieuw.';
+    return `<div class="checkbar"><span class="scorebadge ${full?'full':''}">${r.score}/${max}</span><span class="cheer">${cheer}</span><button class="btn alt small" data-retry="${b.id}">↺ Opnieuw proberen</button></div>`;
+  }
+  return `<div class="checkbar"><button class="btn" data-check="${b.id}">Verbeter</button><span class="err" data-err="${b.id}"></span></div>`;
+}
+function rMC(b){
+  const r=S.ex[b.id];
+  const qs=b.qs.map((q,i)=>{
+    const name=b.id+'_'+i, sel=S.ans[name];
+    const opts=q.o.map((o,k)=>{
+      let cls = sel==k?'sel':'';
+      if(r){ if(k===q.a) cls='ok'; else if(sel==k) cls='bad'; }
+      return `<label class="opt ${cls}"><input type="radio" name="${name}" value="${k}" data-f="${name}" ${sel==k?'checked':''} ${r?'disabled':''}><span>${esc(o)}</span></label>`;
+    }).join('');
+    const ex = r ? `<div class="ex">${sel==q.a?'✓ Juist.':'✗ Het juiste antwoord: '+esc(q.o[q.a])+'.'}${q.ex?' '+esc(q.ex):''}</div>`:'';
+    return `<div class="q"><div class="q-t"><span class="n">${i+1}</span>${esc(q.q)}</div>${opts}${ex}</div>`;
+  }).join('');
+  return `<section class="block" data-block="${b.id}">${head(b)}${qs}${checkBar(b)}</section>`;
+}
+function isRight(item, v){ return Array.isArray(item.a)? item.a.includes(+v) : +v===item.a; }
+function rCat(b){
+  const r=S.ex[b.id];
+  const rows=b.items.map((it,i)=>{
+    const name=b.id+'_'+i, sel=S.ans[name];
+    let ctl;
+    if(b.style==='select'){
+      const cls = r ? (isRight(it,sel)?'ok':'bad') : '';
+      ctl=`<select data-f="${name}" class="${cls}" ${r?'disabled':''} aria-label="Kies techniek"><option value="">– kies –</option>${b.cats.map((c,k)=>`<option value="${k}" ${sel==k&&sel!==''&&sel!=null?'selected':''}>${esc(c)}</option>`).join('')}</select>`;
+    } else {
+      ctl=`<div class="pills" role="group">${b.cats.map((c,k)=>{
+        let cls = (sel!=null && +sel===k)?'sel':'';
+        if(r && +sel===k) cls = isRight(it,sel)?'ok':'bad';
+        return `<button class="pill ${cls}" data-pick="${name}" data-v="${k}" ${r?'disabled':''}>${esc(c)}</button>`;
+      }).join('')}</div>`;
+    }
+    let fb='';
+    if(r){
+      const ok=isRight(it,sel);
+      const right = Array.isArray(it.a)? it.a.map(x=>b.cats[x]).join(' of ') : b.cats[it.a];
+      fb=`<div class="cat-fb ${ok?'ok':'bad'}">${ok?'✓ Juist'+(Array.isArray(it.a)?' (ook goed: '+esc(right)+')':''):'✗ Juist antwoord: '+esc(right)}${it.ex?' · '+esc(it.ex):''}</div>`;
+    }
+    return `<div class="cat-row"><div class="cat-t"><span class="n">${i+1}</span>${it.t}</div>${ctl}${fb}</div>`;
+  }).join('');
+  return `<section class="block" data-block="${b.id}">${head(b)}${rows}${checkBar(b)}</section>`;
+}
+function rGap(b){
+  const r=S.ex[b.id];
+  const parts=gapParts(b);
+  const bank = b.nobank ? '' : `<div class="bank" aria-label="Woordenbank">${shuffle(parts.filter(p=>p.g!=null).map(p=>p.alts[0]), b.id).map(w=>`<span data-bank="${b.id}" data-w="${esc(norm(w))}">${esc(w)}</span>`).join('')}</div>`;
+  const txt = parts.map(p=>{
+    if(p.g==null) return p.t;
+    const name=b.id+'_'+p.g, v=S.ans[name]||'';
+    let cls='', fix='';
+    if(r){
+      const ok=p.alts.some(a=>norm(a)===norm(v)); cls=ok?'ok':'bad';
+      if(!ok) fix=`<span class="gapfix">→ ${esc(p.alts.slice(0,b.nobank?3:1).join(' / '))}</span>`;
+      else if(b.nobank && p.alts.length>1) fix=`<span class="gapfix">(ook: ${esc(p.alts.filter(a=>norm(a)!==norm(v)).slice(0,2).join(', '))})</span>`;
+    }
+    return `<input type="text" data-f="${name}" value="${esc(v)}" class="${cls}" ${r?'disabled':''} aria-label="Invulveld ${p.g+1}" autocomplete="off" spellcheck="false" size="${Math.max(10, (p.alts[0]||'').length+2)}">${fix}`;
+  }).join('');
+  return `<section class="block" data-block="${b.id}">${head(b)}${bank}<div class="gaptext">${txt}</div>${checkBar(b)}</section>`;
+}
+function shuffle(arr, seed){ let h=0; for(const c of seed) h=(h*31+c.charCodeAt(0))>>>0; const a=arr.slice(); for(let i=a.length-1;i>0;i--){ h=(h*1103515245+12345)>>>0; const j=h%(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function updateBank(id){
+  const b=BLOCKS[id]; if(!b||b.nobank) return;
+  const used = gapParts(b).filter(p=>p.g!=null).map(p=>norm(S.ans[id+'_'+p.g]));
+  document.querySelectorAll(`[data-bank="${id}"]`).forEach(sp=>sp.classList.toggle('used', used.includes(sp.dataset.w)));
+}
+function pcVal(id){ const v=(S.ans[id]||'').trim(); return v? esc(v).replace(/\n/g,'<br>') : '<span class="pc-empty">nog leeg</span>'; }
+function pitchInner(){
+  return `<div class="pc-prod">${(S.ans['st1.prod']||'').trim()?esc(S.ans['st1.prod']):'<span class="pc-empty">Mijn product</span>'}</div>
+  <div class="pc-slogan">${(S.ans['st5.slog']||'').trim()?'"'+esc(S.ans['st5.slog'])+'"':'mijn slogan'}</div>
+  <div style="font-size:14px;margin-bottom:10px"><b>Doelgroep:</b> ${pcVal('st1.doel')}</div>
+  <div class="pc-grid">
+    <div class="pc-step"><b>A · Aandacht</b>${pcVal('st6.a')}</div>
+    <div class="pc-step"><b>I · Interesse</b>${pcVal('st6.i')}</div>
+    <div class="pc-step"><b>D · Verlangen</b>${pcVal('st6.d')}</div>
+    <div class="pc-step"><b>A · Actie</b>${pcVal('st6.act')}</div>
+  </div>
+  <div style="font-size:14px;margin-top:10px"><b>Werkpunt:</b> ${pcVal('st1.werk')}</div>`;
+}
+function rPitch(b){ return `<section class="block">${head(b)}<div class="pcard" id="pitchcard">${pitchInner()}</div></section>`; }
+function rTimer(b){
+  const last=S.timer.last, best=S.timer.n||0;
+  return `<section class="block">${head(b)}
+  <div class="timer"><div class="clock" id="clock">0:00</div>
+   <div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="tStart">▶ Start</button><button class="btn alt" id="tStop">■ Stop</button><button class="btn ghost" id="tReset">↺ Reset</button></div>
+   <div class="zone" id="zone" style="margin-top:8px">Klaar? Start de timer en pitch hardop.</div></div></div>
+   <div class="tbar"><i id="tmark"></i></div><div class="tlegend"><span>0:00</span><span>1:00</span><span>2:00</span></div>
+   <p style="font-size:14px;color:var(--ink2)" id="tlog">${last!=null?`Laatste poging: ${fmt(last)} · aantal oefenpogingen: ${best}`:'Nog geen oefenpogingen.'}</p>
+  </section>`;
+}
+function fmt(s){ return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+function rRubric(b){
+  const mode=S.rubMode||'self';
+  const rows=RUBRIC.crit.map((c,i)=>`<tr><td class="crit">${esc(c.n)}</td>${c.d.map((d,k)=>{
+    const r=S.rub[i]||{}; const self=r.self===k, peer=r.peer===k;
+    return `<td class="cell ${self?'self':''} ${peer?'peer':''}" data-rub="${i}" data-lvl="${k}" tabindex="0" role="button" aria-pressed="${mode==='self'?self:peer}">${self?'<span class="tagme">ik</span>':''}${peer?'<span class="tagpeer">klasgenoot</span>':''}<div>${esc(d)}</div></td>`;}).join('')}</tr>`).join('');
+  return `<section class="block" data-block="rubric">${head(b)}
+   <div class="modes"><button data-mode="self" class="${mode==='self'?'on':''}">Ik scoor mezelf</button><button data-mode="peer" class="${mode==='peer'?'on':''}">Klasgenoot scoort mij</button></div>
+   <div class="rubwrap"><table class="rub"><thead><tr><th>Criterium</th>${RUBRIC.levels.map(l=>`<th>${l}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></section>`;
+}
+function finishInner(){
+  const [ts,tm]=totals(); const p=progress();
+  const got=SECTIONS.filter(s=>!s.teacher&&secDone(s)).length, all=SECTIONS.filter(s=>!s.teacher).length;
+  return `<div class="big">${ts}/${tm}</div><p>Je totaalscore op alle gesloten oefeningen · ${p}% van het traject afgewerkt · ${got}/${all} stickers</p>
+  <div class="stickers">${stickerHTML()}</div>
+  ${p<100?'<p class="note" style="text-align:left">Er staan nog onderdelen open. Bekijk de route: briefings zonder ✓ zijn nog niet helemaal klaar.</p>':'<p class="note" style="text-align:left;background:var(--mint-l);border-color:var(--mint)">Staande ovatie! Je hebt het volledige traject afgewerkt.</p>'}`;
+}
+function rFinish(){
+  return `<section class="block finish"><span class="chip c-tomato">Einde traject</span><h2>Je portfolio</h2><div id="finishBox">${finishInner()}</div>
+   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px"><button class="btn" data-export>Exporteer als pdf</button><button class="btn ghost" id="resetAll">Alles wissen</button></div>
+   <p style="font-size:14px;color:var(--ink2);margin-top:12px">Tip: kies in het printvenster <b>Opslaan als PDF</b> als bestemming.</p></section>`;
+}
+function rLpd(){
+  const cov={sterk:'c-mint',gedekt:'c-sky',deels:'c-mustard',niet:'c-tomato'};
+  return `<section class="block">${chip({chip:'Leerkracht'})}<h2>Leerplandoelen per briefing</h2>
+  <p class="intro">Leerplan Nederlands III-Ned-da (Katholiek Onderwijs Vlaanderen, D/2024/13.758/276). Briefingnummers: 0 Welkom · 1 Reclame ontleed · 2 Storytelling en advertorial · 3 Slogans en vaktaal · 4 Taal in reclame · 5 Iedereen aan boord · 6 Ethos, logos, pathos · 7 Pitch lab · 8 Spiegel.</p>
+  <div style="overflow-x:auto"><table class="lpd"><thead><tr><th>LPD</th><th>Leerplandoel</th><th>Waar in de webapp</th><th>Briefing</th><th>Dekking</th></tr></thead><tbody>
+  ${LPD.map(r=>`<tr><td><b>${r[0]}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${r[3]}</td><td><span class="cov ${cov[r[4]]}">${r[4]}</span></td></tr>`).join('')}
+  </tbody></table></div>
+  <h3>Dekkingscheck</h3>
+  <ul>
+   <li><b>Niet gedekt:</b> LPD 8 (eigen beleving en interpretatie van literaire teksten). Bewuste keuze: het thema is zakelijk-persuasief.</li>
+   <li><b>Deels gedekt:</b> LPD 9: de discussie over Roald Dahl raakt aan de maatschappelijke relevantie van literatuur, maar er wordt geen literaire tekst gelezen of geïnterpreteerd.</li>
+   <li><b>Transversaal:</b> LPD 14 loopt door het hele traject (leesstrategie, stappenplan, werkpunt, zelfevaluatie).</li>
+   <li><b>Evaluatie:</b> de pitch wordt beoordeeld met de rubric (briefing 8); de minimumvereisten voor productie (Standaardnederlands, gepast register, vaste tekststructuur AIDA, herkenbare tekstverbanden) zitten in de criteria taalgebruik en inhoud/structuur.</li>
+  </ul>
+  <div class="note info">De leestekst in briefing 2 (StudieKompas) is een eigen, fictieve advertorial. Leerlingen hebben geen handboek nodig: voor Boektopia wordt naar boektopia.be gelinkt, het nieuwsbericht over Douwe Egberts is herschreven, en voor Roald Dahl, Thunberg, Sagan, Jaap de Jong en de reclamespots wordt naar het originele artikel of de video gelinkt.</div></section>`;
+}
+
+function renderSection(id, keepScroll){
+  const sec = SECTIONS.find(s=>s.id===id) || SECTIONS[0];
+  S.cur = sec.id;
+  const y = window.scrollY;
+  const R={html:rHtml,reading:rReading,flip:rFlip,links:rLinks,open:rOpen,mc:rMC,cat:rCat,gap:rGap,pitchcard:rPitch,timer:rTimer,rubric:rRubric,finish:rFinish,lpd:rLpd};
+  const idx = SECTIONS.indexOf(sec);
+  const prev = SECTIONS[idx-1], next = SECTIONS[idx+1];
+  const hero = `<div class="hero"><span class="kicker">${esc(sec.kicker)}</span><h1>${esc(sec.title)}</h1><p>${sec.sub}</p>
+    ${sec.lpd.length?`<div class="hero-tags"><span class="lpdtag" title="Leerplandoelen (voor de leerkracht)">LPD ${sec.lpd.join(' · ')}</span></div>`:''}
+    ${sec.teacher?'':`<div class="hero-sticker"></div>`}</div>`;
+  const nav = `<div class="secnav">${prev?`<button class="btn alt" data-go="${prev.id}">← ${esc(prev.short)}</button>`:'<span></span>'}${next&&!next.teacher?`<button class="btn" data-go="${next.id}">${esc(next.short)} →</button>`:'<span></span>'}</div>`;
+  document.getElementById('main').innerHTML = hero + sec.blocks.map(b=>R[b.type](b)).join('') + nav;
+  Object.keys(BLOCKS).forEach(k=>{ if(BLOCKS[k].type==='gap') updateBank(k); });
+  if(sec.blocks.some(b=>b.type==='timer')) initTimer();
+  updateChrome(); save();
+  if(keepScroll) window.scrollTo(0,y); else { window.scrollTo(0,0); document.getElementById('main').focus({preventScroll:true}); }
+}
+
+/* ================= CHECKING ================= */
+function check(id){
+  const b=BLOCKS[id]; const err=document.querySelector(`[data-err="${id}"]`);
+  let score=0;
+  if(b.type==='mc'){
+    const miss=b.qs.findIndex((q,i)=>S.ans[id+'_'+i]==null);
+    if(miss>-1){ err.textContent=`Beantwoord eerst vraag ${miss+1}.`; return; }
+    b.qs.forEach((q,i)=>{ if(+S.ans[id+'_'+i]===q.a) score++; });
+  } else if(b.type==='cat'){
+    const miss=b.items.findIndex((q,i)=>S.ans[id+'_'+i]==null||S.ans[id+'_'+i]==='');
+    if(miss>-1){ err.textContent=`Maak eerst een keuze bij nummer ${miss+1}.`; return; }
+    b.items.forEach((it,i)=>{ if(isRight(it,S.ans[id+'_'+i])) score++; });
+  } else if(b.type==='gap'){
+    const gaps=gapParts(b).filter(p=>p.g!=null);
+    const miss=gaps.findIndex(p=>!(S.ans[id+'_'+p.g]||'').trim());
+    if(miss>-1){ err.textContent=`Vul eerst alle invulvelden in (veld ${miss+1} is nog leeg).`; return; }
+    gaps.forEach(p=>{ if(p.alts.some(a=>norm(a)===norm(S.ans[id+'_'+p.g]))) score++; });
+  }
+  S.ex[id]={score, max:maxOf(b), at:Date.now()};
+  renderSection(S.cur, true);
+  const el=document.querySelector(`[data-block="${id}"] .checkbar`); if(el) el.scrollIntoView({block:'center',behavior:'smooth'});
+}
+
+/* ================= TIMER ================= */
+let tInt=null, tStart=0, tSec=0;
+function initTimer(){
+  clearInterval(tInt); tInt=null; tSec=0; drawTimer();
+  document.getElementById('tStart').onclick=()=>{ if(tInt) return; tStart=Date.now()-tSec*1000; tInt=setInterval(()=>{ tSec=Math.floor((Date.now()-tStart)/1000); drawTimer(); },250); };
+  document.getElementById('tStop').onclick=()=>{ if(!tInt) return; clearInterval(tInt); tInt=null; S.timer.last=tSec; S.timer.n=(S.timer.n||0)+1; save(); document.getElementById('tlog').textContent=`Laatste poging: ${fmt(tSec)} · aantal oefenpogingen: ${S.timer.n}`; };
+  document.getElementById('tReset').onclick=()=>{ clearInterval(tInt); tInt=null; tSec=0; drawTimer(); };
+}
+function drawTimer(){
+  const c=document.getElementById('clock'); if(!c) return;
+  c.textContent=fmt(tSec);
+  c.className='clock '+(tSec===0?'':tSec<60?'short':tSec<=120?'good':'long');
+  const z=document.getElementById('zone');
+  z.textContent = tSec===0?'Klaar? Start de timer en pitch hardop.': tSec<60?'Nog wat te kort: werk je argumenten verder uit.': tSec<=120?'Perfecte lengte!':'Te lang: schrap wat niet nodig is.';
+  document.getElementById('tmark').style.left = Math.min(100, tSec/120*100)+'%';
+}
+
+/* ================= EVENTS ================= */
+const main=document.getElementById('main');
+let chromeT;
+main.addEventListener('input', e=>{
+  const f=e.target.dataset.f; if(!f) return;
+  S.ans[f]=e.target.value;
+  if(e.target.dataset.words){ const w=e.target.dataset.words.split(',').map(Number); const wc=document.querySelector(`[data-wc="${f}"]`); wc.textContent=wcText(e.target.value,w); wc.classList.toggle('ok',wcOk(e.target.value,w)); }
+  const bid=f.split(/[._]/)[0];
+  if(BLOCKS[bid] && BLOCKS[bid].type==='gap') updateBank(bid);
+  const pc=document.getElementById('pitchcard'); if(pc && /^st[156]\./.test(f)) pc.innerHTML=pitchInner();
+  const er=document.querySelector(`[data-err="${bid}"]`); if(er) er.textContent='';
+  save(); clearTimeout(chromeT); chromeT=setTimeout(updateChrome,300);
+});
+main.addEventListener('change', e=>{
+  const t=e.target, f=t.dataset.f; if(!f) return;
+  if(t.type==='radio'){ S.ans[f]=+t.value; t.closest('.q').querySelectorAll('.opt').forEach(o=>o.classList.toggle('sel', o.contains(t))); }
+  else S.ans[f]=t.value;
+  const bid=f.split('_')[0]; const er=document.querySelector(`[data-err="${bid}"]`); if(er) er.textContent='';
+  save();
+});
+document.addEventListener('click', e=>{
+  const t=e.target.closest('button,[data-rub]'); if(!t) return;
+  if(t.dataset.go){ renderSection(t.dataset.go); closeSide(); return; }
+  if(t.hasAttribute('data-flip')){ t.classList.toggle('on'); return; }
+  if(t.dataset.pick){ S.ans[t.dataset.pick]=+t.dataset.v; t.parentElement.querySelectorAll('.pill').forEach(p=>p.classList.toggle('sel',p===t)); const er=document.querySelector(`[data-err="${t.dataset.pick.split('_')[0]}"]`); if(er) er.textContent=''; save(); return; }
+  if(t.dataset.check){ check(t.dataset.check); return; }
+  if(t.dataset.retry){ delete S.ex[t.dataset.retry]; renderSection(S.cur,true); return; }
+  if(t.dataset.mode){ S.rubMode=t.dataset.mode; renderSection(S.cur,true); return; }
+  if(t.dataset.rub!=null){ rubPick(t); return; }
+  if(t.hasAttribute('data-export')||t.id==='exportTop'){ exportPdf(); return; }
+  if(t.id==='resetAll'){ if(t.dataset.sure){ try{localStorage.removeItem(KEY);}catch(_){}; S={ans:{},ex:{},rub:{},cur:'welkom',rubMode:'self',timer:{}}; renderSection('welkom'); } else { t.dataset.sure='1'; t.textContent='Zeker? Klik nog eens om alles te wissen'; } return; }
+  if(t.id==='sideToggle'){ const s=document.getElementById('side'); s.classList.toggle('open'); t.setAttribute('aria-expanded', s.classList.contains('open')); return; }
+});
+main.addEventListener('keydown', e=>{ const t=e.target; if(t.dataset && t.dataset.rub!=null && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); rubPick(t);} });
+function rubPick(t){
+  const i=+t.dataset.rub, k=+t.dataset.lvl, m=S.rubMode||'self';
+  S.rub[i]=S.rub[i]||{}; S.rub[i][m] = S.rub[i][m]===k? null : k;
+  renderSection(S.cur,true);
+}
+function closeSide(){ const s=document.getElementById('side'); s.classList.remove('open'); document.getElementById('sideToggle').setAttribute('aria-expanded','false'); }
+
+/* ================= EXPORT ================= */
+function ansBlock(v){ return (v||'').trim()? `<div class="ans">${esc(v)}</div>` : `<div class="ans muted">niet ingevuld</div>`; }
+function exportPdf(){
+  const [ts,tm]=totals();
+  const date=new Date().toLocaleDateString('nl-BE',{day:'numeric',month:'long',year:'numeric'});
+  let h=`<h1>Bureau Overtuig · portfolio</h1>
+  <p><b>Naam:</b> ${esc(S.ans['id.naam']||'')} &nbsp; <b>Klas:</b> ${esc(S.ans['id.klas']||'')} &nbsp; <b>Datum:</b> ${date}</p>
+  <p><b>Voortgang:</b> ${progress()}% &nbsp; <b>Totaalscore gesloten oefeningen:</b> ${ts}/${tm} &nbsp; <b>Stickers:</b> ${SECTIONS.filter(s=>!s.teacher&&secDone(s)).map(s=>esc(s.sticker.name)).join(', ')||'–'}</p>
+  <h2>Scorelijst</h2><table><tr><th>Briefing</th><th>Oefening</th><th>Score</th></tr>`;
+  SECTIONS.forEach(s=>s.blocks.forEach(b=>{ if(['mc','cat','gap'].includes(b.type)){ const r=S.ex[b.id]; h+=`<tr><td>${esc(s.short)}</td><td>${esc(strip(b.title))}</td><td>${r?r.score+'/'+maxOf(b):'niet verbeterd'}</td></tr>`; } }));
+  h+=`</table>`;
+  SECTIONS.filter(s=>!s.teacher).forEach(s=>{
+    const items = s.blocks.filter(b=>['open','mc','cat','gap','rubric'].includes(b.type) && b.id!=='id');
+    if(!items.length) return;
+    h+=`<div class="sec"><h2>${esc(s.kicker)} · ${esc(s.title)}</h2><p class="muted" style="font-size:9pt">Leerplandoelen: LPD ${s.lpd.join(', ')}</p>`;
+    items.forEach(b=>{
+      h+=`<div class="item"><h3>${esc(strip(b.title))}${S.ex[b.id]?` · score ${S.ex[b.id].score}/${maxOf(b)}`:''}</h3>`;
+      if(b.type==='open') b.fields.forEach(f=>{ h+=`<div class="lbl">${esc(f.label)}</div>${ansBlock(S.ans[fid(b,f)])}`; });
+      if(b.type==='mc'){ h+='<table>'; b.qs.forEach((q,i)=>{ const v=S.ans[b.id+'_'+i]; const ok=v!=null&&+v===q.a; h+=`<tr><td style="width:50%">${i+1}. ${esc(q.q)}</td><td>${v!=null?esc(q.o[v]):'<span class="muted">–</span>'}</td><td class="${S.ex[b.id]?(ok?'ok':'bad'):''}">${S.ex[b.id]?(ok?'✓':'✗ '+esc(q.o[q.a])):''}</td></tr>`; }); h+='</table>'; }
+      if(b.type==='cat'){ h+='<table>'; b.items.forEach((it,i)=>{ const v=S.ans[b.id+'_'+i]; const has=v!=null&&v!==''; const ok=has&&isRight(it,v); h+=`<tr><td style="width:55%">${esc(strip(it.t))}</td><td>${has?esc(b.cats[v]):'<span class="muted">–</span>'}</td><td class="${S.ex[b.id]?(ok?'ok':'bad'):''}">${S.ex[b.id]?(ok?'✓':'✗'):''}</td></tr>`; }); h+='</table>'; }
+      if(b.type==='gap'){ h+='<table>'; gapParts(b).filter(p=>p.g!=null).forEach(p=>{ const v=S.ans[b.id+'_'+p.g]||''; const ok=p.alts.some(a=>norm(a)===norm(v)); h+=`<tr><td>${p.g+1}</td><td>${esc(v)||'<span class="muted">–</span>'}</td><td class="${S.ex[b.id]?(ok?'ok':'bad'):''}">${S.ex[b.id]?(ok?'✓':'✗ '+esc(p.alts[0])):''}</td></tr>`; }); h+='</table>'; }
+      if(b.type==='rubric'){ h+=`<table><tr><th>Criterium</th><th>Ik</th><th>Klasgenoot</th></tr>${RUBRIC.crit.map((c,i)=>{const r=S.rub[i]||{}; return `<tr><td>${esc(c.n)}</td><td>${r.self!=null?RUBRIC.levels[r.self]:'–'}</td><td>${r.peer!=null?RUBRIC.levels[r.peer]:'–'}</td></tr>`;}).join('')}</table>`; }
+      h+=`</div>`;
+    });
+    if(s.id==='pitch' && S.timer.last!=null) h+=`<p><b>Oefentimer:</b> laatste poging ${fmt(S.timer.last)}, ${S.timer.n} oefenpogingen.</p>`;
+    h+=`</div>`;
+  });
+  document.getElementById('report').innerHTML=h;
+  const old=document.title; document.title='Portfolio Bureau Overtuig - '+(S.ans['id.naam']||'leerling');
+  setTimeout(()=>{ window.print(); document.title=old; },60);
+}
+
+/* ================= START ================= */
+renderSection(S.cur||'welkom');
+</script>
+</body>
+</html>
